@@ -223,17 +223,17 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
             cell.awayTeamLabel.text = match.awayTeam.name
             cell.dateLabel.text = dateInfo.date
             cell.timeLabel.text = dateInfo.time
-            cell.homeTeamScore.isHidden = match.status == "SCHEDULED"
-            cell.awayTeamScore.isHidden = match.status == "SCHEDULED"
+            cell.homeTeamScore.isHidden = match.status != "LIVE"
+            cell.awayTeamScore.isHidden = match.status != "LIVE"
             return cell
         case .table:
             let position = teamPositions[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTableCell", for: indexPath) as! LeagueTableViewCell
             cell.teamNameLabel.text = position.team.name
-            cell.gamesPlayedLabel.text = "P:\(position.playedGames)"
-            cell.goalDifferenceLabel.text = "GD:\(position.goalDifference)"
-            cell.teamPosition.text = "Position:\(position.position)"
-            cell.pointsLabel.text = "Points:\(position.points)"
+            cell.gamesPlayedLabel.text = "P: \(position.playedGames)"
+            cell.goalDifferenceLabel.text = "GD: \(position.goalDifference)"
+            cell.teamPosition.text = "#\(position.position)"
+            cell.pointsLabel.text = "PTS: \(position.points)"
             return cell
         }
     }
