@@ -39,15 +39,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jBJ-JT-Q3a">
-                                <rect key="frame" x="20" y="211" width="374" height="476"/>
+                                <rect key="frame" x="20" y="181" width="374" height="506"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyCell" rowHeight="80" id="5zQ-x5-1BT">
-                                        <rect key="frame" x="0.0" y="28" width="374" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyCell" rowHeight="120" id="5zQ-x5-1BT">
+                                        <rect key="frame" x="0.0" y="28" width="374" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5zQ-x5-1BT" id="4fQ-Tc-PX6">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="79.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="119.66666666666667"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </tableViewCellContentView>
@@ -56,7 +56,7 @@
                                 <sections/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Competitions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wc9-Ia-dPS">
-                                <rect key="frame" x="20" y="114" width="374" height="52"/>
+                                <rect key="frame" x="20" y="84" width="374" height="52"/>
                                 <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -65,7 +65,7 @@
                         <color key="backgroundColor" red="0.0089729437599999993" green="0.26799833769999998" blue="0.6837791204" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="jBJ-JT-Q3a" secondAttribute="bottom" id="3Ut-8T-3f0"/>
-                            <constraint firstItem="wc9-Ia-dPS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="3ce-eV-Y6J"/>
+                            <constraint firstItem="wc9-Ia-dPS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="3ce-eV-Y6J"/>
                             <constraint firstItem="jBJ-JT-Q3a" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="OfJ-af-xby"/>
                             <constraint firstItem="wc9-Ia-dPS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="ZUq-9T-7Yq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wc9-Ia-dPS" secondAttribute="trailing" constant="20" id="kQF-E7-mLZ"/>
@@ -95,17 +95,63 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fixtures" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-ad-M6Z">
-                                <rect key="frame" x="20" y="40" width="374" height="26"/>
+                                <rect key="frame" x="20" y="30" width="374" height="26"/>
                                 <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jZa-EW-ZfI">
+                                <rect key="frame" x="20" y="66" width="374" height="245"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="60B-PV-dwW">
+                                <rect key="frame" x="20" y="321" width="374" height="45"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMd-TL-X0z">
+                                        <rect key="frame" x="0.0" y="0.0" width="187" height="45"/>
+                                        <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="25"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Teams">
+                                            <color key="titleColor" white="1" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aIC-9d-4lo">
+                                        <rect key="frame" x="187" y="0.0" width="187" height="45"/>
+                                        <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="25"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Leagues">
+                                            <color key="titleColor" white="1" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fFo-wQ-1D3">
+                                <rect key="frame" x="20" y="376" width="374" height="311"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.0089729437604546547" green="0.2679983377456665" blue="0.68377912044525146" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="vB6-Zg-XkY" firstAttribute="trailing" secondItem="8Nr-ad-M6Z" secondAttribute="trailing" constant="20" id="FXr-z1-pGd"/>
-                            <constraint firstItem="8Nr-ad-M6Z" firstAttribute="top" secondItem="vB6-Zg-XkY" secondAttribute="top" constant="20" id="M3D-1y-91S"/>
-                            <constraint firstItem="8Nr-ad-M6Z" firstAttribute="leading" secondItem="vB6-Zg-XkY" secondAttribute="leading" constant="20" id="Y2z-sV-i3M"/>
+                            <constraint firstItem="60B-PV-dwW" firstAttribute="leading" secondItem="vB6-Zg-XkY" secondAttribute="leading" constant="20" id="DhT-2S-eYd"/>
+                            <constraint firstItem="vB6-Zg-XkY" firstAttribute="trailing" secondItem="fFo-wQ-1D3" secondAttribute="trailing" constant="20" id="EmF-Oa-Clc"/>
+                            <constraint firstItem="vB6-Zg-XkY" firstAttribute="trailing" secondItem="60B-PV-dwW" secondAttribute="trailing" constant="20" id="IPe-7V-mt6"/>
+                            <constraint firstItem="60B-PV-dwW" firstAttribute="centerY" secondItem="VE9-VP-eV3" secondAttribute="centerY" id="J5P-K3-r6I"/>
+                            <constraint firstItem="8Nr-ad-M6Z" firstAttribute="top" secondItem="vB6-Zg-XkY" secondAttribute="top" constant="10" id="SH9-mi-lBw"/>
+                            <constraint firstItem="fFo-wQ-1D3" firstAttribute="leading" secondItem="vB6-Zg-XkY" secondAttribute="leading" constant="20" id="TyU-Rt-puy"/>
+                            <constraint firstItem="vB6-Zg-XkY" firstAttribute="bottom" secondItem="fFo-wQ-1D3" secondAttribute="bottom" id="XiV-R1-hNR"/>
+                            <constraint firstItem="jZa-EW-ZfI" firstAttribute="leading" secondItem="vB6-Zg-XkY" secondAttribute="leading" constant="20" id="bZQ-yE-iJs"/>
+                            <constraint firstItem="fFo-wQ-1D3" firstAttribute="top" secondItem="60B-PV-dwW" secondAttribute="bottom" constant="10" id="bah-M4-L7O"/>
+                            <constraint firstItem="60B-PV-dwW" firstAttribute="top" secondItem="jZa-EW-ZfI" secondAttribute="bottom" constant="10" id="jXm-pq-el6"/>
+                            <constraint firstItem="jZa-EW-ZfI" firstAttribute="top" secondItem="8Nr-ad-M6Z" secondAttribute="bottom" constant="10" id="ocC-CN-rUL"/>
+                            <constraint firstItem="vB6-Zg-XkY" firstAttribute="trailing" secondItem="jZa-EW-ZfI" secondAttribute="trailing" constant="20" id="sWR-jO-fg9"/>
+                            <constraint firstItem="vB6-Zg-XkY" firstAttribute="trailing" secondItem="8Nr-ad-M6Z" secondAttribute="trailing" constant="20" id="u0v-pM-UO6"/>
+                            <constraint firstItem="8Nr-ad-M6Z" firstAttribute="leading" secondItem="vB6-Zg-XkY" secondAttribute="leading" constant="20" id="vDk-cB-l7f"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vB6-Zg-XkY"/>
                     </view>
@@ -124,13 +170,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Competition" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PY3-qD-mwD">
-                                <rect key="frame" x="20" y="84" width="374" height="36.666666666666657"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="28"/>
+                                <rect key="frame" x="20" y="84" width="374" height="32.666666666666657"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Ydk-UW-FmO">
-                                <rect key="frame" x="0.0" y="150.66666666666666" width="414" height="45"/>
+                                <rect key="frame" x="0.0" y="146.66666666666666" width="414" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YXW-BX-bpP">
                                         <rect key="frame" x="0.0" y="0.0" width="207" height="45"/>
@@ -163,7 +209,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uUj-Ji-BkT">
-                                <rect key="frame" x="20" y="225.66666666666666" width="374" height="441.33333333333337"/>
+                                <rect key="frame" x="20" y="221.66666666666666" width="374" height="445.33333333333337"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>

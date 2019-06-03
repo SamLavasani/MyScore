@@ -8,30 +8,25 @@
 
 import UIKit
 import Alamofire
+import CoreData
 
-class CompetitionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CompetitionsVC: UIViewController {
     
     
     @IBOutlet weak var competitionsTableView: UITableView!
     
     let COMPETITIONS_URL = "https://api.football-data.org/v2/competitions?plan=TIER_ONE"
+    let APP_ID = "b6e36c33acfe4c63a3ad11b761e1b7c4"
     
-    var myTeams : [Team] = []
-    var currentUser = User()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var allCompetitions : [Competition] = []
     var sectionAreas : [String] = []
-    var areaCompetitions : [Competition] = []
-    var user = User()
-    let FOOTBALL_URL = "https://api.football-data.org/v2/competitions/2021/teams"
-    let APP_ID = "b6e36c33acfe4c63a3ad11b761e1b7c4"
+    var following : [CoreCompetition] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        competitionsTableView.delegate = self
-        competitionsTableView.dataSource = self
-        competitionsTableView.separatorStyle = .none
-        competitionsTableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "MyCell")
+        setupTable()
         getAllCompetitions()
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -40,6 +35,7 @@ class CompetitionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewWillAppear(true)
         // Show the Navigation Bar
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        fetchFromCoreData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -48,15 +44,62 @@ class CompetitionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    func getCompetitionsAreas() {
-        sectionAreas.removeAll()
-        for country in allCompetitions {
-            let countryName = country.area.name
-            if(!sectionAreas.contains(countryName)) {
-                sectionAreas.append(countryName)
-            }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    func setupTable() {
+        competitionsTableView.delegate = self
+        competitionsTableView.dataSource = self
+        competitionsTableView.separatorStyle = .none
+        competitionsTableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "MyCell")
+    }
+    
+    //MARK: Core Data
+    func fetchFromCoreData() {
+        let fetchRequest : NSFetchRequest = CoreCompetition.fetchRequest()
+        
+        do {
+            following = try context.fetch(fetchRequest)
+            print("Fetch Following \(following)")
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
+    
+    func saveToCoreData(id: Int) {
+        let competition = CoreCompetition(context: context)
+        
+        competition.id = Int32(id)
+        
+        do {
+            try context.save()
+            following.append(competition)
+            print(self.following)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func deleteFromCoreData(id: Int) {
+        let request : NSFetchRequest = CoreCompetition.fetchRequest()
+        request.predicate = NSPredicate(format: "id == \(id)")
+        do {
+            let comp = try context.fetch(request)
+            
+            if let competition = comp.first {
+                // we've got the profile already cached!
+                context.delete(competition)
+                try context.save()
+                print(self.following)
+            }
+        } catch let error as NSError {
+            // handle error
+            print("Could not remove. \(error), \(error.userInfo)")
+        }
+    }
+    
+    //Mark: Competition request
     
     func getAllCompetitions() {
         let tokenHeader = HTTPHeader(name: "X-Auth-Token", value: APP_ID)
@@ -79,17 +122,65 @@ class CompetitionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    func getCompetitionsAreas() {
+        sectionAreas.removeAll()
+        for country in allCompetitions {
+            let countryName = country.area.name
+            if(!sectionAreas.contains(countryName)) {
+                sectionAreas.append(countryName)
+            }
+        }
+    }
+    
+    func getCompetitionsInSection(section: Int) -> [Competition] {
+        let sectionArea = sectionAreas[section]
+        let sectionCompetitions = allCompetitions.filter({ return $0.area.name == sectionArea})
+        return sectionCompetitions
+    }
+    
+    func unfollowCompetition(comp: Competition) {
+        following.removeAll { (competition) -> Bool in
+            competition.id == comp.id
+        }
+    }
+    
+    //MARK: Segue
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! CompetitionDetailsVC
+        if let indexPath = competitionsTableView.indexPathForSelectedRow {
+            let sectionCompetitions = getCompetitionsInSection(section: indexPath.section)
+            let competition = sectionCompetitions[indexPath.row]
+            destinationVC.selectedCompetition = competition
+        }
+    }
+    
+    func isUserFollowingCompetition(comp: Competition) -> Bool {
+        for competitions in following {
+            if (competitions.id == comp.id) {
+                return true
+            }
+        }
+        return false
+    }
+
+}
+
+//MARK: Tableview datasource and delegate
+
+extension CompetitionsVC: UITableViewDataSource, UITableViewDelegate {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-       return sectionAreas.count
+        return sectionAreas.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionAreas[section]
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        
-//    }
+    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    //
+    //    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionCompetitions = getCompetitionsInSection(section: section)
@@ -111,54 +202,21 @@ class CompetitionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         performSegue(withIdentifier: "goToCompDetails", sender: self)
         
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! CompetitionDetailsVC
-        if let indexPath = competitionsTableView.indexPathForSelectedRow {
-            let sectionCompetitions = getCompetitionsInSection(section: indexPath.section)
-            let competition = sectionCompetitions[indexPath.row]
-            destinationVC.selectedCompetition = competition
-        }
-    }
-    
-    func isUserFollowingCompetition(comp: Competition) -> Bool {
-        for competitions in user.following.competitions {
-            if (competitions.id == comp.id) {
-                return true
-            }
-        }
-        return false
-    }
-    
-    func getCompetitionsInSection(section: Int) -> [Competition] {
-        let sectionArea = sectionAreas[section]
-        let sectionCompetitions = allCompetitions.filter({ return $0.area.name == sectionArea})
-        return sectionCompetitions
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
-    func unfollowCompetition(comp: Competition) {
-        user.following.competitions.removeAll { (competition) -> Bool in
-            competition.id == comp.id
-        }
-    }
-
 }
+
+//MARK: Delegates
 
 extension CompetitionsVC: FollowCellDelegate {
     
     func didTapFollowButton(comp: Competition) {
         if(isUserFollowingCompetition(comp: comp)) {
             unfollowCompetition(comp: comp)
+            deleteFromCoreData(id: comp.id)
         } else {
-            user.following.competitions.append(comp)
+            saveToCoreData(id: comp.id)
         }
     }
     
