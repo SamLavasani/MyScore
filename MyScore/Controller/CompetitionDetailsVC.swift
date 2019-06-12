@@ -9,12 +9,11 @@
 import UIKit
 import Alamofire
 
-enum State {
-    case fixtures
-    case table
-}
-
 class CompetitionDetailsVC: UIViewController {
+    private enum State {
+        case fixtures
+        case table
+    }
     
     var selectedCompetition : Competition?
     var COMPETITION_URL = "https://api.football-data.org/v2/competitions/"

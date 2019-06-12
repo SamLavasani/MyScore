@@ -152,6 +152,7 @@
 		7E4D4D4022929D6E005C8A8B /* MyScore */ = {
 			isa = PBXGroup;
 			children = (
+				7EFD431222B172F30077B077 /* CoreData */,
 				7EFD430D22B151920077B077 /* Helper */,
 				7E35C6D72292DB6C0068E158 /* Model */,
 				7E35C6D82292DB770068E158 /* View */,
@@ -179,6 +180,13 @@
 				7EFD431022B152450077B077 /* CoreDataHelper.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		7EFD431222B172F30077B077 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

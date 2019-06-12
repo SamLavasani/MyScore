@@ -16,7 +16,17 @@ class CoreDataHelper {
         do {
             let following = try context.fetch(fetchRequest)
             return following
-            //print("Fetch Following \(following)")
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        return []
+    }
+    
+    static func fetchTeamsFromCoreData() -> [CoreTeam] {
+        let fetchRequest : NSFetchRequest = CoreTeam.fetchRequest()
+        do {
+            let following = try context.fetch(fetchRequest)
+            return following
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
