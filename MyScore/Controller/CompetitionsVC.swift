@@ -15,8 +15,8 @@ class CompetitionsVC: UIViewController {
     
     @IBOutlet weak var competitionsTableView: UITableView!
     
-    let COMPETITIONS_URL = "https://api.football-data.org/v2/competitions?plan=TIER_ONE"
-    let APP_ID = "b6e36c33acfe4c63a3ad11b761e1b7c4"
+    let COMPETITIONS_URL = "https://api.football-data.org/v2/competitions"
+    let filter = "?plan=TIER_ONE"
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var allCompetitions : [Competition] = []
@@ -35,7 +35,8 @@ class CompetitionsVC: UIViewController {
         super.viewWillAppear(true)
         // Show the Navigation Bar
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        fetchFromCoreData()
+        //fetchFromCoreData()
+        following = CoreDataHelper.fetchCompetitionsFromCoreData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -55,22 +56,32 @@ class CompetitionsVC: UIViewController {
         competitionsTableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "MyCell")
     }
     
+    func isUserFollowingCompetition(comp: Competition) -> Bool {
+        for competitions in following {
+            if (competitions.id == comp.id) {
+                return true
+            }
+        }
+        return false
+    }
+    
     //MARK: Core Data
     func fetchFromCoreData() {
         let fetchRequest : NSFetchRequest = CoreCompetition.fetchRequest()
         
         do {
             following = try context.fetch(fetchRequest)
-            print("Fetch Following \(following)")
+            //print("Fetch Following \(following)")
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
     
-    func saveToCoreData(id: Int) {
+    func saveToCoreData(comp: Competition) {
         let competition = CoreCompetition(context: context)
         
-        competition.id = Int32(id)
+        competition.id = Int32(comp.id)
+        competition.title = comp.name
         
         do {
             try context.save()
@@ -100,41 +111,35 @@ class CompetitionsVC: UIViewController {
     }
     
     //Mark: Competition request
-    
     func getAllCompetitions() {
-        let tokenHeader = HTTPHeader(name: "X-Auth-Token", value: APP_ID)
-        let headers = HTTPHeaders([tokenHeader])
-        AF.request(COMPETITIONS_URL, method: .get, parameters: [:], headers: headers).responseJSON { (response) in
-            switch response.result {
-            case .success:
-                do {
-                    guard let data = response.data else { return }
-                    let competitionData = try JSONDecoder().decode(CompetitionsResponse.self, from: data)
-                    self.allCompetitions = competitionData.competitions
-                    self.getCompetitionsAreas()
-                    self.competitionsTableView.reloadData()
-                } catch {
-                    print(error)
-                }
-            case .failure(let error):
-                print("No bueno \(error.localizedDescription)")
+        guard let url = URL(string: MyScoreURL.competitions + filter) else { return }
+        APIManager.shared.apiRequest(url: url, onSuccess: { [weak self] (data) in
+            do {
+                let competitionData = try JSONDecoder().decode(CompetitionsResponse.self, from: data)
+                self?.allCompetitions = competitionData.competitions
+                self?.getCompetitionsAreas()
+                self?.competitionsTableView.reloadData()
+            } catch {
+                print(error)
             }
+        }) { (error) in
+            print(error)
         }
     }
     
     func getCompetitionsAreas() {
         sectionAreas.removeAll()
         for country in allCompetitions {
-            let countryName = country.area.name
-            if(!sectionAreas.contains(countryName)) {
-                sectionAreas.append(countryName)
+            let countryName = country.area?.name
+            if(!sectionAreas.contains(countryName!)) {
+                sectionAreas.append(countryName!)
             }
         }
     }
     
     func getCompetitionsInSection(section: Int) -> [Competition] {
         let sectionArea = sectionAreas[section]
-        let sectionCompetitions = allCompetitions.filter({ return $0.area.name == sectionArea})
+        let sectionCompetitions = allCompetitions.filter({ return $0.area?.name == sectionArea})
         return sectionCompetitions
     }
     
@@ -153,15 +158,6 @@ class CompetitionsVC: UIViewController {
             let competition = sectionCompetitions[indexPath.row]
             destinationVC.selectedCompetition = competition
         }
-    }
-    
-    func isUserFollowingCompetition(comp: Competition) -> Bool {
-        for competitions in following {
-            if (competitions.id == comp.id) {
-                return true
-            }
-        }
-        return false
     }
 
 }
@@ -214,9 +210,12 @@ extension CompetitionsVC: FollowCellDelegate {
     func didTapFollowButton(comp: Competition) {
         if(isUserFollowingCompetition(comp: comp)) {
             unfollowCompetition(comp: comp)
-            deleteFromCoreData(id: comp.id)
+            //deleteFromCoreData(id: comp.id)
+            CoreDataHelper.deleteFromCoreData(id: comp.id)
         } else {
-            saveToCoreData(id: comp.id)
+            //saveToCoreData(comp: comp)
+            CoreDataHelper.saveCompetitionToCoreData(comp: comp)
+            following = CoreDataHelper.fetchCompetitionsFromCoreData()
         }
     }
     

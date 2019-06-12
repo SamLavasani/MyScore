@@ -26,7 +26,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AhB-f5-Vxx">
                         <rect key="frame" x="5" y="0.0" width="355" height="88.5"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="follow-selected" translatesAutoresizingMaskIntoConstraints="NO" id="IMJ-k5-t04">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="follow" translatesAutoresizingMaskIntoConstraints="NO" id="IMJ-k5-t04">
                                 <rect key="frame" x="15" y="15" width="58.5" height="58.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="IMJ-k5-t04" secondAttribute="height" multiplier="1:1" id="SyD-wU-Y40"/>
@@ -148,6 +148,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="follow-selected" width="32" height="32"/>
+        <image name="follow" width="32" height="32"/>
     </resources>
 </document>

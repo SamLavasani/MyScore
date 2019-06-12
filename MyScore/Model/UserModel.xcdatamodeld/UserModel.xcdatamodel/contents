@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CoreCompetition" representedClassName="CoreCompetition" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="CoreTeam" representedClassName="CoreTeam" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CoreTeam" positionX="-63" positionY="-18" width="128" height="60"/>
-        <element name="CoreCompetition" positionX="-54" positionY="9" width="128" height="60"/>
+        <element name="CoreTeam" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="CoreCompetition" positionX="-54" positionY="9" width="128" height="75"/>
     </elements>
 </model>

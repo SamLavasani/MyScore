@@ -18,8 +18,6 @@ class CompetitionDetailsVC: UIViewController {
     
     var selectedCompetition : Competition?
     var COMPETITION_URL = "https://api.football-data.org/v2/competitions/"
-    let APP_ID = "b6e36c33acfe4c63a3ad11b761e1b7c4"
-    var TEST_URL = "https://api.football-data.org/v2/competitions/2013/matches?dateFrom=2019-04-22&dateTo=2019-05-22"
     let filterMatches = "/matches?"
     let dateFrom = "dateFrom="
     let dateTo = "&dateTo="
@@ -140,65 +138,50 @@ class CompetitionDetailsVC: UIViewController {
     }
     
     func getCompetitionFixtures() {
-        let tokenHeader = HTTPHeader(name: "X-Auth-Token", value: APP_ID)
-        let headers = HTTPHeaders([tokenHeader])
-        
-        let url = getFixturesURL()
-        AF.request(url, method: .get, parameters: [:], headers: headers).responseJSON { (response) in
-            switch response.result {
-            case .success:
-                do {
-                    guard let data = response.data else { return }
-                    let competitionData = try JSONDecoder().decode(CompetitionDetailsResponse.self, from: data)
-                    self.allMatches = competitionData.matches
-                    self.competitionTableView.reloadData()
-                } catch {
-                    print(error)
-                }
-            case .failure(let error):
-                print("No bueno \(error.localizedDescription)")
+        guard let url = getFixturesURL() else { return }
+        APIManager.shared.apiRequest(url: url, onSuccess: { [weak self] (data) in
+            do {
+                let competitionData = try JSONDecoder().decode(CompetitionDetailsResponse.self, from: data)
+                self?.allMatches = competitionData.matches
+                self?.competitionTableView.reloadData()
+            } catch {
+                print(error)
             }
+        }) { (error) in
+            print(error)
         }
     }
     
     func getTableForCompetition() {
-        let tokenHeader = HTTPHeader(name: "X-Auth-Token", value: APP_ID)
-        let headers = HTTPHeaders([tokenHeader])
-        
-        let url = getTableStandingsURL()
-        AF.request(url, method: .get, parameters: [:], headers: headers).responseJSON { (response) in
-            switch response.result {
-            case .success:
-                do {
-                    guard let data = response.data else { return }
-                    let competitionData = try JSONDecoder().decode(TableStandingsResponse.self, from: data)
-                    self.teamPositions = competitionData.standings[0].table
-                    //self.competitionTableView.reloadData()
-                } catch {
-                    print(error)
-                }
-            case .failure(let error):
-                print("No bueno \(error.localizedDescription)")
+        guard let url = getTableStandingsURL() else { return }
+        APIManager.shared.apiRequest(url: url, onSuccess: { [weak self] (data) in
+            do {
+                let competitionData = try JSONDecoder().decode(TableStandingsResponse.self, from: data)
+                self?.teamPositions = competitionData.standings[0].table
+            } catch {
+                print(error)
             }
+        }) { (error) in
+            print(error)
         }
     }
     
-    func getFixturesURL() -> String {
-        guard let competitionID = selectedCompetition?.id else { return "" }
+    func getFixturesURL() -> URL? {
+        guard let competitionID = selectedCompetition?.id else { return nil }
         let currentDate = getCurrentDate()
-        guard let endDate = selectedCompetition?.currentSeason?.endDate else { return "" }
+        guard let endDate = selectedCompetition?.currentSeason?.endDate else { return nil }
         let filterDate = dateFrom + currentDate + dateTo + endDate
-        let compURL = COMPETITION_URL + String(competitionID)
+        let compURL = MyScoreURL.competitions + "/" + String(competitionID)
         let filter = filterMatches + filterDate
-        let url = compURL + filter
+        guard let url = URL(string:compURL + filter) else { return nil }
         return url
     }
     
-    func getTableStandingsURL() -> String {
-        guard let competitionID = selectedCompetition?.id else { return "" }
-        let compURL = COMPETITION_URL + String(competitionID)
+    func getTableStandingsURL() -> URL? {
+        guard let competitionID = selectedCompetition?.id else { return nil }
+        let compURL = MyScoreURL.competitions + "/"+String(competitionID)
         let filter = "/standings?standingType=TOTAL"
-        let url = compURL + filter
+        guard let url = URL(string:compURL + filter) else { return nil }
         return url
     }
 }

@@ -86,10 +86,10 @@
             </objects>
             <point key="canvasLocation" x="42.028985507246382" y="-520.10869565217399"/>
         </scene>
-        <!--View Controller-->
+        <!--FavouritesVC-->
         <scene sceneID="Rh8-53-jP7">
             <objects>
-                <viewController id="AIx-Hy-c0M" sceneMemberID="viewController">
+                <viewController id="AIx-Hy-c0M" customClass="FavouritesVC" customModule="MyScore" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VE9-VP-eV3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -117,6 +117,9 @@
                                         <state key="selected">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="teamsPressed:" destination="AIx-Hy-c0M" eventType="touchUpInside" id="AF8-A5-FlR"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aIC-9d-4lo">
                                         <rect key="frame" x="187" y="0.0" width="187" height="45"/>
@@ -128,6 +131,9 @@
                                         <state key="selected">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="leaguesPressed:" destination="AIx-Hy-c0M" eventType="touchUpInside" id="qgz-xi-H7L"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -156,6 +162,10 @@
                         <viewLayoutGuide key="safeArea" id="vB6-Zg-XkY"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="gGq-am-pAm"/>
+                    <connections>
+                        <outlet property="fixtureTable" destination="jZa-EW-ZfI" id="Q3t-50-E0e"/>
+                        <outlet property="followingTable" destination="fFo-wQ-1D3" id="Hz6-yk-qwR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B2x-tg-v4d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

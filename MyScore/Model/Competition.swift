@@ -14,6 +14,10 @@ struct CompetitionsResponse : Decodable {
     var competitions : [Competition]
 }
 
+struct MatchesResponse : Decodable {
+    var matches : [Matches]
+}
+
 struct CompetitionDetailsResponse : Decodable {
     var competition : Competition
     var matches : [Matches]
@@ -62,7 +66,7 @@ struct DateInfo {
 
 struct Competition : Decodable {
     var id : Int
-    var area : Area
+    var area : Area?
     var name : String
     var currentSeason : Season?
 }
@@ -74,7 +78,9 @@ struct Area : Decodable {
 
 struct Matches : Decodable {
     var id : Int
+    var competition : Competition?
     var status : String
+    var minute : Int?
     var homeTeam : MatchTeam
     var awayTeam : MatchTeam
     var utcDate : String
@@ -95,6 +101,17 @@ struct Coach : Decodable {
     var name : String
 }
 
+struct Score : Decodable {
+    var minute : Int
+    
+}
+
+struct Goals : Decodable {
+    var minute : Int
+    var scorer : MatchPlayer
+    var assist : MatchPlayer
+}
+
 struct Captain : Decodable {
     var id : Int
     var name : String
@@ -110,8 +127,8 @@ struct Season : Decodable {
 struct MatchPlayer : Decodable {
     var id : Int
     var name : String
-    var position : String
-    var shirtNumber : Int
+    var position : String?
+    var shirtNumber : Int?
 }
 
 struct Player : Decodable {
