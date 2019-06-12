@@ -10,53 +10,53 @@ import UIKit
 
 
 // MARK: - Request Response Structs
-struct CompetitionsResponse : Decodable {
-    var competitions : [Competition]
+struct CompetitionsResponse : Codable {
+    let competitions : [Competition]
 }
 
-struct MatchesResponse : Decodable {
-    var matches : [Matches]
+struct MatchesResponse : Codable {
+    let matches : [Match]
 }
 
-struct CompetitionDetailsResponse : Decodable {
-    var competition : Competition
-    var matches : [Matches]
+struct CompetitionDetailsResponse : Codable {
+    let competition : Competition
+    let matches : [Match]
     
 }
 
-struct TableStandingsResponse : Decodable {
-    var competition : Competition
-    var season : Season
-    var standings : [TableStandings]
+struct TableStandingsResponse : Codable {
+    let competition : Competition
+    let season : Season
+    let standings : [TableStandings]
 }
 
 // MARK: - Decodable Structs
 
-struct TableStandings : Decodable {
-    var group : String?
-    var stage : String?
+struct TableStandings : Codable {
+    let group : String?
+    let stage : String?
     var table : [TeamPosition]
-    var type : String
+    let type : String
 }
 
-struct TeamPosition : Decodable {
-    var position : Int
-    var team : Team
-    var playedGames : Int
-    var won : Int
-    var draw : Int
-    var points : Int
-    var goalsFor : Int
-    var goalsAgainst : Int
-    var goalDifference : Int
+struct TeamPosition : Codable {
+    let position : Int
+    let team : Team
+    let playedGames : Int
+    let won : Int
+    let draw : Int
+    let points : Int
+    let goalsFor : Int
+    let goalsAgainst : Int
+    let goalDifference : Int
 }
 
-struct Team : Decodable {
-    var id : Int
-    var name : String
-    var venue : String?
-    var crestUrl : String?
-    var website : String?
+struct Team : Codable {
+    let id : Int
+    let name : String
+    let venue : String?
+    let crestUrl : String?
+    let website : String?
 }
 
 struct DateInfo {
@@ -64,82 +64,82 @@ struct DateInfo {
     var time : String = ""
 }
 
-struct Competition : Decodable {
-    var id : Int
-    var area : Area?
-    var name : String
-    var currentSeason : Season?
+struct Competition : Codable {
+    let id : Int
+    let area : Area?
+    let name : String
+    let currentSeason : Season?
 }
 
-struct Area : Decodable {
-    var id : Int
-    var name : String
+struct Area : Codable {
+    let id : Int
+    let name : String
 }
 
-struct Matches : Decodable {
-    var id : Int
-    var competition : Competition?
-    var status : String
-    var minute : Int?
-    var homeTeam : MatchTeam
-    var awayTeam : MatchTeam
-    var utcDate : String
+struct Match : Codable {
+    let id : Int
+    let competition : Competition?
+    let status : String
+    let minute : Int?
+    let homeTeam : MatchTeam
+    let awayTeam : MatchTeam
+    let utcDate : String
 }
 
-struct MatchTeam : Decodable {
-    var id : Int
-    var name : String
-    var coach : Coach?
-    var captain : Captain?
-    var lineUp : [MatchPlayer]?
-    var bench : [MatchPlayer]?
+struct MatchTeam : Codable {
+    let id : Int
+    let name : String
+    let coach : Coach?
+    let captain : Captain?
+    let lineUp : [MatchPlayer]?
+    let bench : [MatchPlayer]?
     
 }
 
-struct Coach : Decodable {
-    var id : Int
-    var name : String
+struct Coach : Codable {
+    let id : Int
+    let name : String
 }
 
-struct Score : Decodable {
-    var minute : Int
+struct Score : Codable {
+    let minute : Int
     
 }
 
-struct Goals : Decodable {
-    var minute : Int
-    var scorer : MatchPlayer
-    var assist : MatchPlayer
+struct Goals : Codable {
+    let minute : Int
+    let scorer : MatchPlayer
+    let assist : MatchPlayer
 }
 
-struct Captain : Decodable {
-    var id : Int
-    var name : String
-    var shirtNumber : String
+struct Captain : Codable {
+    let id : Int
+    let name : String
+    let shirtNumber : String
 }
 
-struct Season : Decodable {
-    var id : Int
-    var startDate : String
-    var endDate : String
+struct Season : Codable {
+    let id : Int
+    let startDate : String
+    let endDate : String
 }
 
-struct MatchPlayer : Decodable {
-    var id : Int
-    var name : String
-    var position : String?
-    var shirtNumber : Int?
+struct MatchPlayer : Codable {
+    let id : Int
+    let name : String
+    let position : String?
+    let shirtNumber : Int?
 }
 
-struct Player : Decodable {
-    var id : Int
-    var name : String
-    var firstName : String
-    var lastName : String?
-    var dateOfBirth : String
-    var countryOfBirth : String
-    var nationality : String
-    var position : String
+struct Player : Codable {
+    let id : Int
+    let name : String
+    let firstName : String
+    let lastName : String?
+    let dateOfBirth : String
+    let countryOfBirth : String
+    let nationality : String
+    let position : String
 }
 
 

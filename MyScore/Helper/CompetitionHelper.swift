@@ -9,13 +9,30 @@
 import UIKit
 
 class CompetitionHelper {
+    
     static func isUserFollowingCompetition(comp: Competition) -> Bool {
-        let following = CoreDataHelper.fetchCompetitionsFromCoreData()
+        var following : [Competition] = []
+        if Storage.fileExists("MyCompetitions", in: .documents) {
+            // we have messages to retrieve
+            following = Storage.retrieve("MyCompetitions", from: .documents, as: [Competition].self)
+        }
         for competitions in following {
             if (competitions.id == comp.id) {
                 return true
             }
         }
         return false
+    }
+    
+    static func unfollowCompetition(comp: Competition) {
+        var following : [Competition] = []
+        if Storage.fileExists("MyCompetitions", in: .documents) {
+            // we have messages to retrieve
+            following = Storage.retrieve("MyCompetitions", from: .documents, as: [Competition].self)
+        }
+        following.removeAll { (competition) -> Bool in
+            competition.id == comp.id
+        }
+        Storage.store(following, to: .documents, as: "MyCompetitions")
     }
 }

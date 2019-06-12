@@ -16,7 +16,6 @@ class CompetitionDetailsVC: UIViewController {
     }
     
     var selectedCompetition : Competition?
-    var COMPETITION_URL = "https://api.football-data.org/v2/competitions/"
     let filterMatches = "/matches?"
     let dateFrom = "dateFrom="
     let dateTo = "&dateTo="
@@ -30,7 +29,7 @@ class CompetitionDetailsVC: UIViewController {
     var shapeLayer = CAShapeLayer()
     private var state : State = .fixtures
     
-    var allMatches : [Matches] = []
+    var allMatches : [Match] = []
     
     var teamPositions : [TeamPosition] = []
     

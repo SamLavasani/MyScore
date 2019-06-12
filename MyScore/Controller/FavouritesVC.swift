@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 import Alamofire
 
 class FavouritesVC: UIViewController {
@@ -16,6 +15,7 @@ class FavouritesVC: UIViewController {
         case teams
         case leagues
     }
+    
     let filter = "?plan=TIER_ONE"
     @IBOutlet weak var fixtureTable: UITableView!
     @IBOutlet weak var leaguesButton: UIButton!
@@ -23,12 +23,9 @@ class FavouritesVC: UIViewController {
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var followingTable: UITableView!
     
-    let FIXTURE_URL = "https://api.football-data.org/v2/teams/{id}/matches?limit=1"
-    let APP_ID = "b6e36c33acfe4c63a3ad11b761e1b7c4"
-    var favouriteCompetitions : [CoreCompetition] = []
-    var favouriteTeams : [CoreTeam] = []
-    var favouriteFixtures : [Matches] = []
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var favouriteCompetitions : [Competition] = []
+    var favouriteTeams : [Team] = []
+    var favouriteFixtures : [Match] = []
     var shapeLayer = CAShapeLayer()
     private var state : State = .teams
     
@@ -43,9 +40,10 @@ class FavouritesVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //fetchTeamsFromCoreData()
-        favouriteTeams = CoreDataHelper.fetchTeamsFromCoreData()
-        favouriteCompetitions = CoreDataHelper.fetchCompetitionsFromCoreData()
+        
+        if Storage.fileExists("MyCompetitions", in: .documents) {
+            favouriteCompetitions = Storage.retrieve("MyCompetitions", from: .documents, as: [Competition].self)
+        }
         followingTable.reloadData()
     }
     
@@ -101,30 +99,6 @@ class FavouritesVC: UIViewController {
         self.followingTable.reloadData()
     }
     
-    func getAllCompetitions() {
-        let tokenHeader = HTTPHeader(name: "X-Auth-Token", value: APP_ID)
-        let headers = HTTPHeaders([tokenHeader])
-        guard let id = favouriteTeams.first else { return }
-        let url = FIXTURE_URL + "\(id)" + "/matches?limit=1"
-        AF.request(url, method: .get, parameters: [:], headers: headers).responseJSON { (response) in
-            switch response.result {
-            case .success:
-                do {
-                    guard let data = response.data else { return }
-                    //let competitionData = try JSONDecoder().decode(CompetitionsResponse.self, from: data)
-//                    self.allCompetitions = competitionData.competitions
-//                    self.getCompetitionsAreas()
-//                    self.competitionsTableView.reloadData()
-                    print(data)
-                } catch {
-                    print(error)
-                }
-            case .failure(let error):
-                print("No bueno \(error.localizedDescription)")
-            }
-        }
-    }
-    
     func getDateFromString(date: String) -> DateInfo {
         var dateInfo = DateInfo()
         let formatter = DateFormatter()
@@ -163,49 +137,34 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
         case .teams:
             let team = favouriteTeams[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as! CustomTableViewCell
+            cell.mainLabel.text = team.name
             return cell
         case .leagues:
             let competition = favouriteCompetitions[indexPath.row]
+            let isFollowing = CompetitionHelper.isUserFollowingCompetition(comp: competition)
             let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as! CustomTableViewCell
             //cell.setCompetition(comp: competition)
+            cell.setCompetition(comp: competition)
             cell.delegate = self
-            cell.mainLabel.text = competition.title
-            cell.followButton.isSelected = isUserFollowingCompetition(compId: Int(competition.id))
-            let followImage = isUserFollowingCompetition(compId: Int(competition.id)) ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
+            cell.mainLabel.text = competition.name
+            cell.followButton.isSelected = isFollowing
+            let followImage = isFollowing ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
             cell.followButton.imageView?.image = followImage
             return cell
         }
     }
-    
-    func unfollowCompetition(compId: Int) {
-        favouriteCompetitions.removeAll { (competition) -> Bool in
-            competition.id == compId
-        }
-    }
-    
-    func isUserFollowingCompetition(compId: Int) -> Bool {
-        for competitions in favouriteCompetitions {
-            if (competitions.id == compId) {
-                return true
-            }
-        }
-        return false
-    }
-    
-    
 }
 
-extension FavouritesVC: FollowCellDelegate {
+extension FavouritesVC: FollowCompetitionDelegate {
     
     func didTapFollowButton(comp: Competition) {
-        if(isUserFollowingCompetition(compId: comp.id)) {
-            unfollowCompetition(compId: comp.id)
-            //deleteFromCoreData(id: comp.id)
-            CoreDataHelper.deleteFromCoreData(id: comp.id)
-        } else {
-            //saveToCoreData(comp: comp)
-            CoreDataHelper.saveCompetitionToCoreData(comp: comp)
-            favouriteCompetitions = CoreDataHelper.fetchCompetitionsFromCoreData()
+        if(CompetitionHelper.isUserFollowingCompetition(comp: comp)) {
+           CompetitionHelper.unfollowCompetition(comp: comp)
+            followingTable.reloadData()
+        }
+        else {
+            favouriteCompetitions.append(comp)
+            Storage.store(favouriteCompetitions, to: .documents, as: "MyCompetitions")
         }
     }
     

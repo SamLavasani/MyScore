@@ -8,13 +8,19 @@
 
 import UIKit
 
-protocol FollowCellDelegate {
+protocol FollowCompetitionDelegate {
     func didTapFollowButton(comp: Competition)
+}
+protocol FollowTeamDelegate {
+    func didTapFollowButton(team: Team)
+}
+protocol FollowMatchDelegate {
+    func didTapFollowButton(match: Match)
 }
 
 class CustomTableViewCell: UITableViewCell {
     
-    var delegate : FollowCellDelegate?
+    var delegate : FollowCompetitionDelegate?
     
     @IBOutlet weak var mainBackground: UIView!
     @IBOutlet weak var leftImageView: UIImageView!

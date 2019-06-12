@@ -21,13 +21,12 @@
 		7E4D4D4722929D6E005C8A8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E4D4D4522929D6E005C8A8B /* Main.storyboard */; };
 		7E4D4D4922929D71005C8A8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E4D4D4822929D71005C8A8B /* Assets.xcassets */; };
 		7E4D4D4C22929D71005C8A8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E4D4D4A22929D71005C8A8B /* LaunchScreen.storyboard */; };
-		7EA1911722A5311600E7CEA7 /* UserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1911522A5311600E7CEA7 /* UserModel.xcdatamodeld */; };
 		7EA1911922A54D9100E7CEA7 /* FavouritesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1911822A54D9100E7CEA7 /* FavouritesVC.swift */; };
+		7ECAA68822B1A72700AF7211 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECAA68722B1A72700AF7211 /* Storage.swift */; };
 		7EFD430822B12ACB0077B077 /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD430722B12ACB0077B077 /* ApiKey.swift */; };
 		7EFD430A22B12DBA0077B077 /* MyScoreURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD430922B12DBA0077B077 /* MyScoreURL.swift */; };
 		7EFD430C22B13EE90077B077 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD430B22B13EE90077B077 /* APIManager.swift */; };
 		7EFD430F22B151A90077B077 /* CompetitionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD430E22B151A90077B077 /* CompetitionHelper.swift */; };
-		7EFD431122B152450077B077 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD431022B152450077B077 /* CoreDataHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,13 +45,12 @@
 		7E4D4D4822929D71005C8A8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7E4D4D4B22929D71005C8A8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7E4D4D4D22929D71005C8A8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7EA1911622A5311600E7CEA7 /* UserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UserModel.xcdatamodel; sourceTree = "<group>"; };
 		7EA1911822A54D9100E7CEA7 /* FavouritesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesVC.swift; sourceTree = "<group>"; };
+		7ECAA68722B1A72700AF7211 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		7EFD430722B12ACB0077B077 /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		7EFD430922B12DBA0077B077 /* MyScoreURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScoreURL.swift; sourceTree = "<group>"; };
 		7EFD430B22B13EE90077B077 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		7EFD430E22B151A90077B077 /* CompetitionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionHelper.swift; sourceTree = "<group>"; };
-		7EFD431022B152450077B077 /* CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
 		AE2E5921B783D0E0372DF36D /* Pods-MyScore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyScore.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyScore/Pods-MyScore.release.xcconfig"; sourceTree = "<group>"; };
 		B4E2C07FEC851E092636B803 /* Pods-MyScore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyScore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyScore/Pods-MyScore.debug.xcconfig"; sourceTree = "<group>"; };
 		F6831902C6E60605921B346E /* Pods_MyScore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyScore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,7 +81,6 @@
 			isa = PBXGroup;
 			children = (
 				7E35C6DA2292DB9C0068E158 /* Competition.swift */,
-				7EA1911522A5311600E7CEA7 /* UserModel.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -161,6 +158,7 @@
 				7E4D4D4D22929D71005C8A8B /* Info.plist */,
 				7EFD430722B12ACB0077B077 /* ApiKey.swift */,
 				7EFD430B22B13EE90077B077 /* APIManager.swift */,
+				7ECAA68722B1A72700AF7211 /* Storage.swift */,
 			);
 			path = MyScore;
 			sourceTree = "<group>";
@@ -177,7 +175,6 @@
 			isa = PBXGroup;
 			children = (
 				7EFD430E22B151A90077B077 /* CompetitionHelper.swift */,
-				7EFD431022B152450077B077 /* CoreDataHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -314,7 +311,6 @@
 			files = (
 				7EFD430C22B13EE90077B077 /* APIManager.swift in Sources */,
 				7EFD430822B12ACB0077B077 /* ApiKey.swift in Sources */,
-				7EA1911722A5311600E7CEA7 /* UserModel.xcdatamodeld in Sources */,
 				7E35C6E32292EF2B0068E158 /* CustomTableViewCell.swift in Sources */,
 				7EFD430F22B151A90077B077 /* CompetitionHelper.swift in Sources */,
 				7EFD430A22B12DBA0077B077 /* MyScoreURL.swift in Sources */,
@@ -322,8 +318,8 @@
 				7E35C6DB2292DB9C0068E158 /* Competition.swift in Sources */,
 				7E4D4D4222929D6E005C8A8B /* AppDelegate.swift in Sources */,
 				7E35C6F02295A42A0068E158 /* LeagueTableViewCell.swift in Sources */,
-				7EFD431122B152450077B077 /* CoreDataHelper.swift in Sources */,
 				7EA1911922A54D9100E7CEA7 /* FavouritesVC.swift in Sources */,
+				7ECAA68822B1A72700AF7211 /* Storage.swift in Sources */,
 				7E35C6EC229565C30068E158 /* SmallFixtureTableViewCell.swift in Sources */,
 				7E35C6E82294318D0068E158 /* CompetitionDetailsVC.swift in Sources */,
 			);
@@ -527,19 +523,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		7EA1911522A5311600E7CEA7 /* UserModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				7EA1911622A5311600E7CEA7 /* UserModel.xcdatamodel */,
-			);
-			currentVersion = 7EA1911622A5311600E7CEA7 /* UserModel.xcdatamodel */;
-			path = UserModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 7E4D4D3622929D6E005C8A8B /* Project object */;
 }

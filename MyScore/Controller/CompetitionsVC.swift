@@ -8,20 +8,17 @@
 
 import UIKit
 import Alamofire
-import CoreData
 
 class CompetitionsVC: UIViewController {
     
     
     @IBOutlet weak var competitionsTableView: UITableView!
     
-    let COMPETITIONS_URL = "https://api.football-data.org/v2/competitions"
     let filter = "?plan=TIER_ONE"
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var allCompetitions : [Competition] = []
     var sectionAreas : [String] = []
-    var following : [CoreCompetition] = []
+    var following : [Competition] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +32,11 @@ class CompetitionsVC: UIViewController {
         super.viewWillAppear(true)
         // Show the Navigation Bar
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        //fetchFromCoreData()
-        following = CoreDataHelper.fetchCompetitionsFromCoreData()
+        competitionsTableView.reloadData()
+        if Storage.fileExists("MyCompetitions", in: .documents) {
+            // we have messages to retrieve
+            following = Storage.retrieve("MyCompetitions", from: .documents, as: [Competition].self)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,60 +54,6 @@ class CompetitionsVC: UIViewController {
         competitionsTableView.dataSource = self
         competitionsTableView.separatorStyle = .none
         competitionsTableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "MyCell")
-    }
-    
-    func isUserFollowingCompetition(comp: Competition) -> Bool {
-        for competitions in following {
-            if (competitions.id == comp.id) {
-                return true
-            }
-        }
-        return false
-    }
-    
-    //MARK: Core Data
-    func fetchFromCoreData() {
-        let fetchRequest : NSFetchRequest = CoreCompetition.fetchRequest()
-        
-        do {
-            following = try context.fetch(fetchRequest)
-            //print("Fetch Following \(following)")
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-    }
-    
-    func saveToCoreData(comp: Competition) {
-        let competition = CoreCompetition(context: context)
-        
-        competition.id = Int32(comp.id)
-        competition.title = comp.name
-        
-        do {
-            try context.save()
-            following.append(competition)
-            print(self.following)
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-    
-    func deleteFromCoreData(id: Int) {
-        let request : NSFetchRequest = CoreCompetition.fetchRequest()
-        request.predicate = NSPredicate(format: "id == \(id)")
-        do {
-            let comp = try context.fetch(request)
-            
-            if let competition = comp.first {
-                // we've got the profile already cached!
-                context.delete(competition)
-                try context.save()
-                print(self.following)
-            }
-        } catch let error as NSError {
-            // handle error
-            print("Could not remove. \(error), \(error.userInfo)")
-        }
     }
     
     //Mark: Competition request
@@ -141,12 +87,6 @@ class CompetitionsVC: UIViewController {
         let sectionArea = sectionAreas[section]
         let sectionCompetitions = allCompetitions.filter({ return $0.area?.name == sectionArea})
         return sectionCompetitions
-    }
-    
-    func unfollowCompetition(comp: Competition) {
-        following.removeAll { (competition) -> Bool in
-            competition.id == comp.id
-        }
     }
     
     //MARK: Segue
@@ -190,8 +130,8 @@ extension CompetitionsVC: UITableViewDataSource, UITableViewDelegate {
         cell.setCompetition(comp: competition)
         cell.delegate = self
         cell.mainLabel.text = competition.name
-        cell.followButton.isSelected = isUserFollowingCompetition(comp: competition)
-        let followImage = isUserFollowingCompetition(comp: competition) ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
+        cell.followButton.isSelected = CompetitionHelper.isUserFollowingCompetition(comp: competition)
+        let followImage = CompetitionHelper.isUserFollowingCompetition(comp: competition) ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
         cell.followButton.imageView?.image = followImage
         return cell
         
@@ -205,17 +145,14 @@ extension CompetitionsVC: UITableViewDataSource, UITableViewDelegate {
 
 //MARK: Delegates
 
-extension CompetitionsVC: FollowCellDelegate {
+extension CompetitionsVC: FollowCompetitionDelegate {
     
     func didTapFollowButton(comp: Competition) {
-        if(isUserFollowingCompetition(comp: comp)) {
-            unfollowCompetition(comp: comp)
-            //deleteFromCoreData(id: comp.id)
-            CoreDataHelper.deleteFromCoreData(id: comp.id)
+        if(CompetitionHelper.isUserFollowingCompetition(comp: comp)) {
+           CompetitionHelper.unfollowCompetition(comp: comp)
         } else {
-            //saveToCoreData(comp: comp)
-            CoreDataHelper.saveCompetitionToCoreData(comp: comp)
-            following = CoreDataHelper.fetchCompetitionsFromCoreData()
+            following.append(comp)
+            Storage.store(following, to: .documents, as: "MyCompetitions")
         }
     }
     

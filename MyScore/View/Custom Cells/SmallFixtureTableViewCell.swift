@@ -11,7 +11,8 @@ import UIKit
 class SmallFixtureTableViewCell: UITableViewCell {
 
     @IBOutlet weak var mainBackgroundView: UIView!
-    @IBOutlet weak var logoImage: UIImageView!
+    
+    @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var homeTeamScore: UILabel!
     
     @IBOutlet weak var awayTeamScore: UILabel!
@@ -22,6 +23,7 @@ class SmallFixtureTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var timeLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -35,6 +37,9 @@ class SmallFixtureTableViewCell: UITableViewCell {
         awayTeamLabel.text?.removeAll()
         dateLabel.text?.removeAll()
         timeLabel.text?.removeAll()
+    }
+    @IBAction func followButtonPressed(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
     }
     
 }
