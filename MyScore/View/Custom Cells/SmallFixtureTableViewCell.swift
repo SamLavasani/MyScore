@@ -24,12 +24,18 @@ class SmallFixtureTableViewCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     
+    var match : Match?
+    var delegate : FollowDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.backgroundColor = .clear
         self.mainBackgroundView.layer.cornerRadius = 8
         self.mainBackgroundView.layer.masksToBounds = true
+    }
+    
+    func setFixture(fixture: Match) {
+        match = fixture
     }
     
     func resetCell() {
@@ -40,6 +46,9 @@ class SmallFixtureTableViewCell: UITableViewCell {
     }
     @IBAction func followButtonPressed(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
+        if let fixture = match {
+            delegate?.didTapFollowButton(object: fixture, type: .fixtures)
+        }
     }
     
 }

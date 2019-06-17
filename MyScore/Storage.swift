@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SaveFavourites: String {
+enum Type: String {
     case team = "MyTeams"
     case competition = "MyCompetitions"
     case fixtures = "MyFixtures"
@@ -43,7 +43,7 @@ public class Storage {
         }
     }
     
-    static func store<T: Encodable>(_ object: T, to directory: Directory, as fileName: SaveFavourites) {
+    static func store<T: Encodable>(_ object: T, to directory: Directory, as fileName: Type) {
         let url = getURL(for: directory).appendingPathComponent(fileName.rawValue, isDirectory: false)
         
         let encoder = JSONEncoder()
@@ -59,13 +59,13 @@ public class Storage {
         }
     }
     
-    static func retrieve<T: Decodable>(_ fileName: SaveFavourites, from directory: Directory, as type: T.Type) -> T {
+    static func retrieve<T: Decodable>(_ fileName: Type, from directory: Directory, as type: T.Type) -> T {
         let url = getURL(for: directory).appendingPathComponent(fileName.rawValue, isDirectory: false)
         
         if !FileManager.default.fileExists(atPath: url.path) {
             fatalError("File at path \(url.path) does not exist!")
         }
-        print(url.path)
+        //print(url.path)
         if let data = FileManager.default.contents(atPath: url.path) {
             let decoder = JSONDecoder()
             do {
@@ -93,7 +93,7 @@ public class Storage {
     }
     
     /// Remove specified file from specified directory
-    static func remove(_ fileName: SaveFavourites, from directory: Directory) {
+    static func remove(_ fileName: Type, from directory: Directory) {
         let url = getURL(for: directory).appendingPathComponent(fileName.rawValue, isDirectory: false)
         if FileManager.default.fileExists(atPath: url.path) {
             do {
@@ -105,7 +105,7 @@ public class Storage {
     }
     
     /// Returns BOOL indicating whether file exists at specified directory with specified file name
-    static func fileExists(_ fileName: SaveFavourites, in directory: Directory) -> Bool {
+    static func fileExists(_ fileName: Type, in directory: Directory) -> Bool {
         
         let url = getURL(for: directory).appendingPathComponent(fileName.rawValue, isDirectory: false)
         return FileManager.default.fileExists(atPath: url.path)

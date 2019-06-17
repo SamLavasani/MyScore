@@ -8,8 +8,8 @@
 
 import UIKit
 
-protocol FollowCompetitionDelegate {
-    func didTapFollowButton(comp: Competition)
+protocol FollowDelegate {
+    func didTapFollowButton<T>(object: T, type: Type)
 }
 protocol FollowTeamDelegate {
     func didTapFollowButton(team: Team)
@@ -20,7 +20,7 @@ protocol FollowMatchDelegate {
 
 class CustomTableViewCell: UITableViewCell {
     
-    var delegate : FollowCompetitionDelegate?
+    var delegate : FollowDelegate?
     
     @IBOutlet weak var mainBackground: UIView!
     @IBOutlet weak var leftImageView: UIImageView!
@@ -28,7 +28,8 @@ class CustomTableViewCell: UITableViewCell {
     
     @IBOutlet weak var followButton: UIButton!
     
-    var competition : Competition!
+    var competition : Competition?
+    var team : Team?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,12 +39,23 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     func setCompetition(comp: Competition) {
-        competition = comp
+        self.competition = comp
+        mainLabel.text = comp.name
+    }
+    
+    func setTeam(team: Team) {
+        self.team = team
+        mainLabel.text = team.name
     }
     
     @IBAction func followButtonPressed(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
-        delegate?.didTapFollowButton(comp: competition)
+        if let comp = competition {
+            delegate?.didTapFollowButton(object: comp, type: .competition)
+        }
+        if let team = team {
+            delegate?.didTapFollowButton(object: team, type: .team)
+        }
     }
     
 }

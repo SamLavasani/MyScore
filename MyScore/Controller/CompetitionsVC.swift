@@ -130,8 +130,8 @@ extension CompetitionsVC: UITableViewDataSource, UITableViewDelegate {
         cell.setCompetition(comp: competition)
         cell.delegate = self
         cell.mainLabel.text = competition.name
-        cell.followButton.isSelected = CompetitionHelper.isUserFollowingCompetition(comp: competition)
-        let followImage = CompetitionHelper.isUserFollowingCompetition(comp: competition) ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
+        cell.followButton.isSelected = FollowHelper.isFollowing(type: .competition, object: competition)
+        let followImage = FollowHelper.isFollowing(type: .competition, object: competition) ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
         cell.followButton.imageView?.image = followImage
         return cell
         
@@ -145,15 +145,19 @@ extension CompetitionsVC: UITableViewDataSource, UITableViewDelegate {
 
 //MARK: Delegates
 
-extension CompetitionsVC: FollowCompetitionDelegate {
+extension CompetitionsVC: FollowDelegate {
     
-    func didTapFollowButton(comp: Competition) {
-        if(CompetitionHelper.isUserFollowingCompetition(comp: comp)) {
-           CompetitionHelper.unfollowCompetition(comp: comp)
+    func didTapFollowButton<T>(object: T, type: Type) {
+        let comp = object as! Competition
+        let follow = FollowHelper.isFollowing(type: type, object: comp)
+        if(follow) {
+            following.removeAll { (competition) -> Bool in
+                competition.id == comp.id
+            }
         } else {
             following.append(comp)
-            Storage.store(following, to: .documents, as: .competition)
         }
+        Storage.store(following, to: .documents, as: .competition)
     }
     
 }

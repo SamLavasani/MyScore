@@ -157,7 +157,8 @@ class CompetitionDetailsVC: UIViewController {
         APIManager.shared.apiRequest(url: url, onSuccess: { [weak self] (data) in
             do {
                 let competitionData = try JSONDecoder().decode(TableStandingsResponse.self, from: data)
-                self?.teamPositions = competitionData.standings[0].table
+                //print(competitionData)
+                self?.teamPositions = competitionData.standings.first?.table ?? []
             } catch {
                 print(error)
             }

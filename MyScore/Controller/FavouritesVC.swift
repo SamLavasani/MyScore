@@ -28,14 +28,17 @@ class FavouritesVC: UIViewController {
     var favouriteFixtures : [Match] = []
     var shapeLayer = CAShapeLayer()
     let cellId = "MyCell"
+    let fixtureCellId = "SmallFixtureCell"
     private var state : State = .teams
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         followingTable.delegate = self
         followingTable.dataSource = self
         fixtureTable.delegate = self
         fixtureTable.dataSource = self
+        fixtureTable.register(UINib(nibName: "SmallFixtureTableViewCell", bundle: nil), forCellReuseIdentifier: fixtureCellId)
         followingTable.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
         
     }
@@ -134,36 +137,76 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
-        switch state {
-        case .teams:
-            let team = favouriteTeams[indexPath.row]
-            cell.mainLabel.text = team.name
-            return cell
-        case .leagues:
-            let competition = favouriteCompetitions[indexPath.row]
-            let isFollowing = CompetitionHelper.isUserFollowingCompetition(comp: competition)
-            cell.setCompetition(comp: competition)
-            cell.delegate = self
-            cell.mainLabel.text = competition.name
-            cell.followButton.isSelected = isFollowing
-            let followImage = isFollowing ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
-            cell.followButton.imageView?.image = followImage
+        if tableView == followingTable {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
+            switch state {
+            case .teams:
+                let team = favouriteTeams[indexPath.row]
+                cell.mainLabel.text = team.name
+                cell.setTeam(team: team)
+                return cell
+            case .leagues:
+                let competition = favouriteCompetitions[indexPath.row]
+                let isFollowing = FollowHelper.isFollowing(type: .competition, object: competition)
+                cell.setCompetition(comp: competition)
+                cell.delegate = self
+                cell.mainLabel.text = competition.name
+                cell.followButton.isSelected = isFollowing
+                let followImage = isFollowing ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
+                cell.followButton.imageView?.image = followImage
+                return cell
+            }
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
+            let fixture = favouriteFixtures[indexPath.row]
+            cell.homeTeamLabel.text = fixture.homeTeam.name
+            cell.awayTeamLabel.text = fixture.awayTeam.name
+            cell.setFixture(fixture: fixture)
+            
             return cell
         }
     }
 }
 
-extension FavouritesVC: FollowCompetitionDelegate {
+extension FavouritesVC: FollowDelegate {
     
-    func didTapFollowButton(comp: Competition) {
-        if(CompetitionHelper.isUserFollowingCompetition(comp: comp)) {
-           CompetitionHelper.unfollowCompetition(comp: comp)
-            followingTable.reloadData()
+    func didTapFollowButton<T>(object: T, type: Type) {
+        let following = FollowHelper.isFollowing(type: type, object: object)
+
+        if(following) {
+            switch type {
+            case .competition:
+                let comp = object as! Competition
+                favouriteCompetitions.removeAll { (competition) -> Bool in
+                    competition.id == comp.id
+                }
+            case .team:
+                let team = object as! Team
+                favouriteTeams.removeAll { (teams) -> Bool in
+                    teams.id == team.id
+                }
+            case .fixtures:
+                let match = object as! Match
+                favouriteFixtures.removeAll { (fixture) -> Bool in
+                    fixture.id == match.id
+                }
+            }
         }
         else {
-            favouriteCompetitions.append(comp)
-            Storage.store(favouriteCompetitions, to: .documents, as: .competition)
+            switch type {
+            case .competition:
+                let comp = object as! Competition
+                favouriteCompetitions.append(comp)
+                Storage.store(favouriteCompetitions, to: .documents, as: .competition)
+            case .team:
+                let team = object as! Team
+                favouriteTeams.append(team)
+                Storage.store(favouriteTeams, to: .documents, as: .team)
+            case .fixtures:
+                let match = object as! Match
+                favouriteFixtures.append(match)
+                Storage.store(favouriteFixtures, to: .documents, as: .fixtures)
+            }
         }
     }
     
