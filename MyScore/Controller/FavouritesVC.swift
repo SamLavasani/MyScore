@@ -27,6 +27,7 @@ class FavouritesVC: UIViewController {
     var favouriteTeams : [Team] = []
     var favouriteFixtures : [Match] = []
     var shapeLayer = CAShapeLayer()
+    let cellId = "MyCell"
     private var state : State = .teams
     
     override func viewDidLoad() {
@@ -35,14 +36,14 @@ class FavouritesVC: UIViewController {
         followingTable.dataSource = self
         fixtureTable.delegate = self
         fixtureTable.dataSource = self
-        followingTable.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "MyCell")
+        followingTable.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if Storage.fileExists("MyCompetitions", in: .documents) {
-            favouriteCompetitions = Storage.retrieve("MyCompetitions", from: .documents, as: [Competition].self)
+        if Storage.fileExists(.competition, in: .documents) {
+            favouriteCompetitions = Storage.retrieve(.competition, from: .documents, as: [Competition].self)
         }
         followingTable.reloadData()
     }
@@ -133,17 +134,15 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
         switch state {
         case .teams:
             let team = favouriteTeams[indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as! CustomTableViewCell
             cell.mainLabel.text = team.name
             return cell
         case .leagues:
             let competition = favouriteCompetitions[indexPath.row]
             let isFollowing = CompetitionHelper.isUserFollowingCompetition(comp: competition)
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as! CustomTableViewCell
-            //cell.setCompetition(comp: competition)
             cell.setCompetition(comp: competition)
             cell.delegate = self
             cell.mainLabel.text = competition.name
@@ -164,7 +163,7 @@ extension FavouritesVC: FollowCompetitionDelegate {
         }
         else {
             favouriteCompetitions.append(comp)
-            Storage.store(favouriteCompetitions, to: .documents, as: "MyCompetitions")
+            Storage.store(favouriteCompetitions, to: .documents, as: .competition)
         }
     }
     

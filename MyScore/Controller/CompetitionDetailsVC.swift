@@ -19,6 +19,8 @@ class CompetitionDetailsVC: UIViewController {
     let filterMatches = "/matches?"
     let dateFrom = "dateFrom="
     let dateTo = "&dateTo="
+    let leagueCellId = "LeagueTableCell"
+    let fixtureCellId = "SmallFixtureCell"
     
     @IBOutlet weak var competitionLabel: UILabel!
     
@@ -39,8 +41,8 @@ class CompetitionDetailsVC: UIViewController {
         competitionTableView.dataSource = self
         competitionTableView.separatorStyle = .none
         competitionLabel.text = selectedCompetition?.name
-        competitionTableView.register(UINib(nibName: "SmallFixtureTableViewCell", bundle: nil), forCellReuseIdentifier: "SmallFixtureCell")
-        competitionTableView.register(UINib(nibName: "LeagueTableViewCell", bundle: nil), forCellReuseIdentifier: "LeagueTableCell")
+        competitionTableView.register(UINib(nibName: "SmallFixtureTableViewCell", bundle: nil), forCellReuseIdentifier: fixtureCellId)
+        competitionTableView.register(UINib(nibName: "LeagueTableViewCell", bundle: nil), forCellReuseIdentifier: leagueCellId)
         
         getCompetitionFixtures()
         getTableForCompetition()
@@ -198,7 +200,7 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
         switch state {
         case .fixtures:
             let match = allMatches[indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SmallFixtureCell", for: indexPath) as! SmallFixtureTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
             let dateInfo = getDateFromString(date: match.utcDate)
             cell.homeTeamLabel.text = match.homeTeam.name
             cell.awayTeamLabel.text = match.awayTeam.name
@@ -209,7 +211,7 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
             return cell
         case .table:
             let position = teamPositions[indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTableCell", for: indexPath) as! LeagueTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: leagueCellId, for: indexPath) as! LeagueTableViewCell
             cell.teamNameLabel.text = position.team.name
             cell.gamesPlayedLabel.text = "P: \(position.playedGames)"
             cell.goalDifferenceLabel.text = "GD: \(position.goalDifference)"

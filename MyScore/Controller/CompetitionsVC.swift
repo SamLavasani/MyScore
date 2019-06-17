@@ -13,7 +13,7 @@ class CompetitionsVC: UIViewController {
     
     
     @IBOutlet weak var competitionsTableView: UITableView!
-    
+    let cellId = "MyCell"
     let filter = "?plan=TIER_ONE"
     
     var allCompetitions : [Competition] = []
@@ -33,9 +33,9 @@ class CompetitionsVC: UIViewController {
         // Show the Navigation Bar
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         competitionsTableView.reloadData()
-        if Storage.fileExists("MyCompetitions", in: .documents) {
+        if Storage.fileExists(.competition, in: .documents) {
             // we have messages to retrieve
-            following = Storage.retrieve("MyCompetitions", from: .documents, as: [Competition].self)
+            following = Storage.retrieve(.competition, from: .documents, as: [Competition].self)
         }
     }
     
@@ -53,7 +53,7 @@ class CompetitionsVC: UIViewController {
         competitionsTableView.delegate = self
         competitionsTableView.dataSource = self
         competitionsTableView.separatorStyle = .none
-        competitionsTableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "MyCell")
+        competitionsTableView.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
     }
     
     //Mark: Competition request
@@ -126,7 +126,7 @@ extension CompetitionsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sectionCompetitions = getCompetitionsInSection(section: indexPath.section)
         let competition = sectionCompetitions[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as! CustomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
         cell.setCompetition(comp: competition)
         cell.delegate = self
         cell.mainLabel.text = competition.name
@@ -152,7 +152,7 @@ extension CompetitionsVC: FollowCompetitionDelegate {
            CompetitionHelper.unfollowCompetition(comp: comp)
         } else {
             following.append(comp)
-            Storage.store(following, to: .documents, as: "MyCompetitions")
+            Storage.store(following, to: .documents, as: .competition)
         }
     }
     
