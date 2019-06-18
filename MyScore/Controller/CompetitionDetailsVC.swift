@@ -199,7 +199,6 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
             let dateInfo = DateHelper.getDateFromString(date: match.utcDate)
             cell.delegate = self
-            cell.setFixture(fixture: match)
             cell.homeTeamLabel.text = match.homeTeam.name
             cell.awayTeamLabel.text = match.awayTeam.name
             cell.dateLabel.text = dateInfo.date
@@ -207,6 +206,7 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
             cell.homeTeamScore.isHidden = match.status != "LIVE"
             cell.awayTeamScore.isHidden = match.status != "LIVE"
             cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, object: match)
+            cell.setFixture(fixture: match)
             return cell
         case .table:
             let position = teamPositions[indexPath.row]

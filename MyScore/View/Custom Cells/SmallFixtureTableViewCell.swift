@@ -23,7 +23,9 @@ class SmallFixtureTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var homeScoreConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var smallSeparator: UIView!
     var match : Match?
     var delegate : FollowDelegate?
     override func awakeFromNib() {
@@ -36,6 +38,8 @@ class SmallFixtureTableViewCell: UITableViewCell {
     
     func setFixture(fixture: Match) {
         match = fixture
+        self.smallSeparator.isHidden = homeTeamScore.isHidden
+        self.homeScoreConstraint.constant = self.smallSeparator.isHidden ? -10 : 20
     }
     
     func resetCell() {

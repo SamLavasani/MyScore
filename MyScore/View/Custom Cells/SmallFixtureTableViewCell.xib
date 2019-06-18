@@ -26,28 +26,33 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AhB-f5-Vxx">
                         <rect key="frame" x="5" y="0.0" width="355" height="88.5"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="xBK-OC-hzF">
-                                <rect key="frame" x="112.5" y="16.5" width="75.5" height="55.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="xBK-OC-hzF">
+                                <rect key="frame" x="112.5" y="14.5" width="182.5" height="59.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home Team" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G1C-qP-EJ5">
                                         <rect key="frame" x="0.0" y="0.0" width="75.5" height="18.5"/>
                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="0.0"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vs." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cht-nF-kt6">
                                         <rect key="frame" x="0.0" y="18.5" width="17.5" height="18.5"/>
                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Away Team" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpn-iN-cNM">
-                                        <rect key="frame" x="0.0" y="37" width="75" height="18.5"/>
+                                        <rect key="frame" x="0.0" y="37" width="75" height="22.5"/>
                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="Cht-nF-kt6" firstAttribute="centerY" secondItem="xBK-OC-hzF" secondAttribute="centerY" constant="-2" id="VfW-Re-Fjw"/>
+                                </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nu4-Ah-BL7">
                                 <rect key="frame" x="83" y="17.5" width="9.5" height="19.5"/>
@@ -61,7 +66,7 @@
                                 <color key="textColor" red="0.54862147569656372" green="0.93511325120925903" blue="0.25261428952217102" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ps4-Ih-N1c">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ps4-Ih-N1c">
                                 <rect key="frame" x="314" y="26" width="26" height="37"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UNc-ct-eQ9">
@@ -115,6 +120,7 @@
                             <constraint firstItem="ztl-se-zOj" firstAttribute="leading" secondItem="gEq-zg-CyC" secondAttribute="trailing" constant="15" id="Cfq-ky-6VT"/>
                             <constraint firstItem="e15-R4-dQ8" firstAttribute="centerY" secondItem="AhB-f5-Vxx" secondAttribute="centerY" constant="18" id="ENH-Fi-waf"/>
                             <constraint firstItem="ztl-se-zOj" firstAttribute="top" secondItem="AhB-f5-Vxx" secondAttribute="top" constant="5" id="HTe-m1-EkI"/>
+                            <constraint firstAttribute="trailing" secondItem="xBK-OC-hzF" secondAttribute="trailing" constant="60" id="XSC-kV-jia"/>
                             <constraint firstItem="xBK-OC-hzF" firstAttribute="leading" secondItem="Nu4-Ah-BL7" secondAttribute="trailing" constant="20" id="YPX-J9-c8T"/>
                             <constraint firstItem="Ps4-Ih-N1c" firstAttribute="centerY" secondItem="AhB-f5-Vxx" secondAttribute="centerY" id="ZeO-o4-hU3"/>
                             <constraint firstItem="Nu4-Ah-BL7" firstAttribute="leading" secondItem="ztl-se-zOj" secondAttribute="trailing" constant="20" id="aMz-6d-FkH"/>
@@ -143,9 +149,11 @@
                 <outlet property="awayTeamScore" destination="e15-R4-dQ8" id="Nq3-Ht-jdo"/>
                 <outlet property="dateLabel" destination="UNc-ct-eQ9" id="dK7-Yc-9nC"/>
                 <outlet property="followButton" destination="gEq-zg-CyC" id="3ZT-0e-Zgx"/>
+                <outlet property="homeScoreConstraint" destination="YPX-J9-c8T" id="pff-SM-7hd"/>
                 <outlet property="homeTeamLabel" destination="G1C-qP-EJ5" id="Va3-yz-UmJ"/>
                 <outlet property="homeTeamScore" destination="Nu4-Ah-BL7" id="2cM-oy-x8I"/>
                 <outlet property="mainBackgroundView" destination="AhB-f5-Vxx" id="g8S-ku-W4h"/>
+                <outlet property="smallSeparator" destination="hbx-22-xk7" id="xSo-lK-wQz"/>
                 <outlet property="timeLabel" destination="EG5-jW-HEe" id="5TW-jn-1Qf"/>
             </connections>
             <point key="canvasLocation" x="170.28985507246378" y="126.22767857142857"/>
