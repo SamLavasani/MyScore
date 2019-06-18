@@ -23,9 +23,21 @@ class FavouritesVC: UIViewController {
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var followingTable: UITableView!
     
-    var favouriteCompetitions : [Competition] = []
-    var favouriteTeams : [Team] = []
-    var favouriteFixtures : [Match] = []
+    var favouriteCompetitions : [Competition] = [] {
+        didSet {
+            Storage.store(favouriteCompetitions, to: .documents, as: .competition)
+        }
+    }
+    var favouriteTeams : [Team] = [] {
+        didSet {
+            Storage.store(favouriteTeams, to: .documents, as: .team)
+        }
+    }
+    var favouriteFixtures : [Match] = [] {
+        didSet {
+            Storage.store(favouriteFixtures, to: .documents, as: .fixtures)
+        }
+    }
     var shapeLayer = CAShapeLayer()
     let cellId = "MyCell"
     let fixtureCellId = "SmallFixtureCell"
@@ -48,7 +60,14 @@ class FavouritesVC: UIViewController {
         if Storage.fileExists(.competition, in: .documents) {
             favouriteCompetitions = Storage.retrieve(.competition, from: .documents, as: [Competition].self)
         }
+        if Storage.fileExists(.team, in: .documents) {
+            favouriteTeams = Storage.retrieve(.team, from: .documents, as: [Team].self)
+        }
+        if Storage.fileExists(.fixtures, in: .documents) {
+            favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [Match].self)
+        }
         followingTable.reloadData()
+        fixtureTable.reloadData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -102,27 +121,18 @@ class FavouritesVC: UIViewController {
         }
         self.followingTable.reloadData()
     }
-    
-    func getDateFromString(date: String) -> DateInfo {
-        var dateInfo = DateInfo()
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        if let newDate = formatter.date(from: date) {
-            //print(date)
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd MMM"
-            let date = formatter.string(from: newDate)
-            formatter.dateFormat = "HH:mm"
-            let time = formatter.string(from: newDate)
-            dateInfo.date = date
-            dateInfo.time = time
-        }
-        return dateInfo
-    }
 }
 
 extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView == fixtureTable {
+            return 85
+        } else {
+            return 80
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == followingTable {
             switch state {
@@ -162,6 +172,15 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
             cell.homeTeamLabel.text = fixture.homeTeam.name
             cell.awayTeamLabel.text = fixture.awayTeam.name
             cell.setFixture(fixture: fixture)
+            cell.delegate = self
+            let dateInfo = DateHelper.getDateFromString(date: fixture.utcDate)
+            cell.dateLabel.text = dateInfo.date
+            if let minute = fixture.minute {
+                cell.timeLabel.text = "\(minute)"
+            } else {
+                cell.timeLabel.text = dateInfo.time
+            }
+            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, object: fixture)
             
             return cell
         }
@@ -197,15 +216,12 @@ extension FavouritesVC: FollowDelegate {
             case .competition:
                 let comp = object as! Competition
                 favouriteCompetitions.append(comp)
-                Storage.store(favouriteCompetitions, to: .documents, as: .competition)
             case .team:
                 let team = object as! Team
                 favouriteTeams.append(team)
-                Storage.store(favouriteTeams, to: .documents, as: .team)
             case .fixtures:
                 let match = object as! Match
                 favouriteFixtures.append(match)
-                Storage.store(favouriteFixtures, to: .documents, as: .fixtures)
             }
         }
     }

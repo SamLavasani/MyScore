@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7DE7D65C0E79217CFC4E19E6 /* Pods_MyScore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6831902C6E60605921B346E /* Pods_MyScore.framework */; };
 		7E28CDA722B7D21900C0C626 /* FollowHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E28CDA622B7D21900C0C626 /* FollowHelper.swift */; };
+		7E28CDA922B7EE2600C0C626 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E28CDA822B7EE2600C0C626 /* DateHelper.swift */; };
 		7E35C6DB2292DB9C0068E158 /* Competition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E35C6DA2292DB9C0068E158 /* Competition.swift */; };
 		7E35C6E32292EF2B0068E158 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E35C6E12292EF2B0068E158 /* CustomTableViewCell.swift */; };
 		7E35C6E42292EF2B0068E158 /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E35C6E22292EF2B0068E158 /* CustomTableViewCell.xib */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		7E28CDA622B7D21900C0C626 /* FollowHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHelper.swift; sourceTree = "<group>"; };
+		7E28CDA822B7EE2600C0C626 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		7E35C6DA2292DB9C0068E158 /* Competition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Competition.swift; sourceTree = "<group>"; };
 		7E35C6E12292EF2B0068E158 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		7E35C6E22292EF2B0068E158 /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				7E28CDA622B7D21900C0C626 /* FollowHelper.swift */,
+				7E28CDA822B7EE2600C0C626 /* DateHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				7E35C6E32292EF2B0068E158 /* CustomTableViewCell.swift in Sources */,
 				7E28CDA722B7D21900C0C626 /* FollowHelper.swift in Sources */,
 				7EFD430A22B12DBA0077B077 /* MyScoreURL.swift in Sources */,
+				7E28CDA922B7EE2600C0C626 /* DateHelper.swift in Sources */,
 				7E4D4D4422929D6E005C8A8B /* CompetitionsVC.swift in Sources */,
 				7E35C6DB2292DB9C0068E158 /* Competition.swift in Sources */,
 				7E4D4D4222929D6E005C8A8B /* AppDelegate.swift in Sources */,

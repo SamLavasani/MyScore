@@ -63,6 +63,7 @@ public class Storage {
         let url = getURL(for: directory).appendingPathComponent(fileName.rawValue, isDirectory: false)
         
         if !FileManager.default.fileExists(atPath: url.path) {
+//            _ = getURL(for: directory).appendingPathComponent(fileName.rawValue, isDirectory: false)
             fatalError("File at path \(url.path) does not exist!")
         }
         //print(url.path)

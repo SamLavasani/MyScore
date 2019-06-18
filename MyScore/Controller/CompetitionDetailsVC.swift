@@ -21,6 +21,7 @@ class CompetitionDetailsVC: UIViewController {
     let dateTo = "&dateTo="
     let leagueCellId = "LeagueTableCell"
     let fixtureCellId = "SmallFixtureCell"
+    var path = UIBezierPath()
     
     @IBOutlet weak var competitionLabel: UILabel!
     
@@ -32,8 +33,12 @@ class CompetitionDetailsVC: UIViewController {
     private var state : State = .fixtures
     
     var allMatches : [Match] = []
-    
     var teamPositions : [TeamPosition] = []
+    var favouriteMatches : [Match] = [] {
+        didSet {
+            Storage.store(favouriteMatches, to: .documents, as: .fixtures)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +48,9 @@ class CompetitionDetailsVC: UIViewController {
         competitionLabel.text = selectedCompetition?.name
         competitionTableView.register(UINib(nibName: "SmallFixtureTableViewCell", bundle: nil), forCellReuseIdentifier: fixtureCellId)
         competitionTableView.register(UINib(nibName: "LeagueTableViewCell", bundle: nil), forCellReuseIdentifier: leagueCellId)
-        
+        if Storage.fileExists(.fixtures, in: .documents) {
+         favouriteMatches = Storage.retrieve(.fixtures, from: .documents, as: [Match].self)
+        }
         getCompetitionFixtures()
         getTableForCompetition()
         setupTransparentNavBar()
@@ -56,34 +63,6 @@ class CompetitionDetailsVC: UIViewController {
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
     }
-    
-    func getDateFromString(date: String) -> DateInfo {
-        var dateInfo = DateInfo()
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        if let newDate = formatter.date(from: date) {
-            //print(date)
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd MMM"
-            let date = formatter.string(from: newDate)
-            formatter.dateFormat = "HH:mm"
-            let time = formatter.string(from: newDate)
-            dateInfo.date = date
-            dateInfo.time = time
-        }
-        return dateInfo
-    }
-    
-    func getCurrentDate() -> String {
-        let date = Date()
-        let format = DateFormatter()
-        format.dateFormat = "yyyy-MM-dd"
-        let formattedDate = format.string(from: date)
-        return formattedDate
-    }
-    
-    var path = UIBezierPath()
     
     fileprivate func setupUnderLine() {
         let frame: CGRect = buttonStackView.frame
@@ -169,7 +148,7 @@ class CompetitionDetailsVC: UIViewController {
     
     func getFixturesURL() -> URL? {
         guard let competitionID = selectedCompetition?.id else { return nil }
-        let currentDate = getCurrentDate()
+        let currentDate = DateHelper.getCurrentDate()
         guard let endDate = selectedCompetition?.currentSeason?.endDate else { return nil }
         let filterDate = dateFrom + currentDate + dateTo + endDate
         let compURL = MyScoreURL.competitions + "/" + String(competitionID)
@@ -187,6 +166,22 @@ class CompetitionDetailsVC: UIViewController {
     }
 }
 
+extension CompetitionDetailsVC: FollowDelegate {
+    func didTapFollowButton<T>(object: T, type: Type) {
+        let following = FollowHelper.isFollowing(type: type, object: object)
+        let fixture = object as! Match
+        if(following) {
+            favouriteMatches.removeAll { (match) -> Bool in
+                match.id == fixture.id
+            }
+        } else {
+            favouriteMatches.append(fixture)
+        }
+    }
+    
+    
+}
+
 extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch state {
@@ -202,13 +197,16 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
         case .fixtures:
             let match = allMatches[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
-            let dateInfo = getDateFromString(date: match.utcDate)
+            let dateInfo = DateHelper.getDateFromString(date: match.utcDate)
+            cell.delegate = self
+            cell.setFixture(fixture: match)
             cell.homeTeamLabel.text = match.homeTeam.name
             cell.awayTeamLabel.text = match.awayTeam.name
             cell.dateLabel.text = dateInfo.date
             cell.timeLabel.text = dateInfo.time
             cell.homeTeamScore.isHidden = match.status != "LIVE"
             cell.awayTeamScore.isHidden = match.status != "LIVE"
+            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, object: match)
             return cell
         case .table:
             let position = teamPositions[indexPath.row]
