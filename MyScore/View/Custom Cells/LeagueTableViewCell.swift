@@ -15,11 +15,26 @@ class LeagueTableViewCell: UITableViewCell {
     @IBOutlet weak var goalDifferenceLabel: UILabel!
     @IBOutlet weak var gamesPlayedLabel: UILabel!
     @IBOutlet weak var teamNameLabel: UILabel!
+    @IBOutlet weak var followButton: UIButton!
+    
+    var delegate : FollowDelegate?
+    var team : Team?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = .clear
         // Initialization code
+    }
+    
+    
+    @IBAction func followButtonPressed(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        guard let team = self.team else { return }
+        delegate?.didTapFollowButton(object: team, type: .team)
+    }
+    
+    func setTeam(team: Team) {
+        self.team = team
     }
     
     func resetCell() {

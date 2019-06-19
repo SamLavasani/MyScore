@@ -39,6 +39,11 @@ class CompetitionDetailsVC: UIViewController {
             Storage.store(favouriteMatches, to: .documents, as: .fixtures)
         }
     }
+    var favouriteTeams : [Team] = [] {
+        didSet {
+            Storage.store(favouriteTeams, to: .documents, as: .team)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +55,9 @@ class CompetitionDetailsVC: UIViewController {
         competitionTableView.register(UINib(nibName: "LeagueTableViewCell", bundle: nil), forCellReuseIdentifier: leagueCellId)
         if Storage.fileExists(.fixtures, in: .documents) {
          favouriteMatches = Storage.retrieve(.fixtures, from: .documents, as: [Match].self)
+        }
+        if Storage.fileExists(.team, in: .documents) {
+            favouriteTeams = Storage.retrieve(.team, from: .documents, as: [Team].self)
         }
         getCompetitionFixtures()
         getTableForCompetition()
@@ -136,7 +144,6 @@ class CompetitionDetailsVC: UIViewController {
         APIManager.shared.apiRequest(url: url, onSuccess: { [weak self] (data) in
             do {
                 let competitionData = try JSONDecoder().decode(TableStandingsResponse.self, from: data)
-                //print(competitionData)
                 self?.teamPositions = competitionData.standings.first?.table ?? []
             } catch {
                 print(error)
@@ -169,13 +176,27 @@ class CompetitionDetailsVC: UIViewController {
 extension CompetitionDetailsVC: FollowDelegate {
     func didTapFollowButton<T>(object: T, type: Type) {
         let following = FollowHelper.isFollowing(type: type, object: object)
-        let fixture = object as! Match
-        if(following) {
-            favouriteMatches.removeAll { (match) -> Bool in
-                match.id == fixture.id
+        
+        if type == .team {
+            let team = object as! Team
+            if(following) {
+                favouriteTeams.removeAll { (teams) -> Bool in
+                    teams.id == team.id
+                }
+            } else {
+                favouriteTeams.append(team)
             }
+            
         } else {
-            favouriteMatches.append(fixture)
+            let fixture = object as! Match
+            if(following) {
+                favouriteMatches.removeAll { (match) -> Bool in
+                    match.id == fixture.id
+                }
+            } else {
+                favouriteMatches.append(fixture)
+            }
+            
         }
     }
     
@@ -211,11 +232,14 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
         case .table:
             let position = teamPositions[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: leagueCellId, for: indexPath) as! LeagueTableViewCell
+            cell.delegate = self
             cell.teamNameLabel.text = position.team.name
             cell.gamesPlayedLabel.text = "P: \(position.playedGames)"
             cell.goalDifferenceLabel.text = "GD: \(position.goalDifference)"
             cell.teamPosition.text = "#\(position.position)"
             cell.pointsLabel.text = "PTS: \(position.points)"
+            cell.followButton.isSelected = FollowHelper.isFollowing(type: .team, object: position.team)
+            cell.setTeam(team: position.team)
             return cell
         }
     }

@@ -152,7 +152,10 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
             switch state {
             case .teams:
                 let team = favouriteTeams[indexPath.row]
+                let isFollowing = FollowHelper.isFollowing(type: .team, object: team)
                 cell.mainLabel.text = team.name
+                let followImage = isFollowing ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
+                cell.followButton.imageView?.image = followImage
                 cell.setTeam(team: team)
                 return cell
             case .leagues:
@@ -181,7 +184,6 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
                 cell.timeLabel.text = dateInfo.time
             }
             cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, object: fixture)
-            
             return cell
         }
     }
