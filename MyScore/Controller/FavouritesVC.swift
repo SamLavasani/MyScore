@@ -22,6 +22,7 @@ class FavouritesVC: UIViewController {
     @IBOutlet weak var teamsButton: UIButton!
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var followingTable: UITableView!
+    @IBOutlet weak var backgroundImage: UIImageView!
     
     var favouriteCompetitions : [Competition] = [] {
         didSet {
@@ -52,10 +53,10 @@ class FavouritesVC: UIViewController {
         fixtureTable.dataSource = self
         fixtureTable.register(UINib(nibName: "SmallFixtureTableViewCell", bundle: nil), forCellReuseIdentifier: fixtureCellId)
         followingTable.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         
         if Storage.fileExists(.competition, in: .documents) {
             favouriteCompetitions = Storage.retrieve(.competition, from: .documents, as: [Competition].self)
@@ -68,10 +69,16 @@ class FavouritesVC: UIViewController {
         }
         followingTable.reloadData()
         fixtureTable.reloadData()
+        slideAnimationForFixture()
+        slideAnimationForTable()
     }
     
     override func viewDidLayoutSubviews() {
         setupUnderLine()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     fileprivate func setupUnderLine() {
@@ -100,6 +107,41 @@ class FavouritesVC: UIViewController {
         view.layer.addSublayer(shapeLayer)
     }
     
+    func slideAnimationForTable() {
+        let tx : CGFloat = state == .teams ? -500 : 500
+        let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, tx, 0, 0)
+        followingTable.layer.transform = rotationTransform
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
+            self.followingTable.layer.transform = CATransform3DIdentity
+        })
+    }
+    
+    func slideAnimationForFixture() {
+        let ty : CGFloat = 500
+        let cells = fixtureTable.visibleCells
+        let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, 0, ty, 0)
+        for cell in cells {
+            cell.layer.transform = rotationTransform
+            UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
+                cell.layer.transform = CATransform3DIdentity
+            })
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "goToCompDetails") {
+            let destinationVC = segue.destination as! CompetitionDetailsVC
+            if let indexPath = followingTable.indexPathForSelectedRow {
+                let competition = favouriteCompetitions[indexPath.row]
+                destinationVC.selectedCompetition = competition
+            }
+        } else if (segue.identifier == "goToFixtureDetails") {
+            
+        } else {
+            
+        }
+    }
+    
     
     @IBAction func teamsPressed(_ sender: UIButton) {
         sender.isSelected = true
@@ -109,6 +151,7 @@ class FavouritesVC: UIViewController {
             self.shapeLayer.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         }
         self.followingTable.reloadData()
+        slideAnimationForTable()
     }
     
     @IBAction func leaguesPressed(_ sender: UIButton) {
@@ -120,6 +163,7 @@ class FavouritesVC: UIViewController {
             self.shapeLayer.frame = CGRect(x: x, y: 0, width: 0, height: 0)
         }
         self.followingTable.reloadData()
+        slideAnimationForTable()
     }
 }
 
@@ -143,6 +187,19 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             return favouriteFixtures.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == fixtureTable {
+            performSegue(withIdentifier: "goToFixtureDetails", sender: self)
+        } else {
+            switch state {
+            case .leagues:
+                performSegue(withIdentifier: "goToCompDetails", sender: self)
+            case .teams:
+                performSegue(withIdentifier: "goToTeamDetails", sender: self)
+            }
         }
     }
     
@@ -226,6 +283,8 @@ extension FavouritesVC: FollowDelegate {
                 favouriteFixtures.append(match)
             }
         }
+        followingTable.reloadData()
+        fixtureTable.reloadData()
     }
     
 }

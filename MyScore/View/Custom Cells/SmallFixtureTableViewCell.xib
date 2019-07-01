@@ -21,7 +21,7 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3bP-1A-qN3" userLabel="ShadowView" customClass="ShadowView" customModule="MyScore" customModuleProvider="target">
                         <rect key="frame" x="5" y="0.0" width="355" height="88.5"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AhB-f5-Vxx">
                         <rect key="frame" x="5" y="0.0" width="355" height="88.5"/>
@@ -111,7 +111,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.0036961107980000001" green="0.1580307782" blue="0.42622992399999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.8027878852739726" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="gEq-zg-CyC" firstAttribute="leading" secondItem="AhB-f5-Vxx" secondAttribute="leading" constant="15" id="1oH-61-WxD"/>
                             <constraint firstItem="e15-R4-dQ8" firstAttribute="leading" secondItem="ztl-se-zOj" secondAttribute="trailing" constant="20" id="2YA-ig-ccw"/>
@@ -132,6 +132,7 @@
                         </constraints>
                     </view>
                 </subviews>
+                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="3bP-1A-qN3" secondAttribute="bottom" constant="10" id="Fzi-ed-Cm9"/>
                     <constraint firstAttribute="bottom" secondItem="AhB-f5-Vxx" secondAttribute="bottom" constant="10" id="Mpl-Ik-xXD"/>
@@ -143,6 +144,7 @@
                     <constraint firstItem="AhB-f5-Vxx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="moY-ek-5hx"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="awayTeamLabel" destination="vpn-iN-cNM" id="TKZ-x9-1dn"/>

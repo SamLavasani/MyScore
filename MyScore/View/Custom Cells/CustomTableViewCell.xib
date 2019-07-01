@@ -50,7 +50,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.0036961107980459929" green="0.15803077816963196" blue="0.42622992396354675" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.60027825339999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Wdk-YB-BiU" firstAttribute="top" secondItem="d8M-RX-nAU" secondAttribute="top" constant="10" id="E2w-h2-VrE"/>
                             <constraint firstItem="Wdk-YB-BiU" firstAttribute="leading" secondItem="4Bf-bs-MdE" secondAttribute="trailing" constant="15" id="L9C-SR-KtT"/>

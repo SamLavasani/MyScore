@@ -39,12 +39,6 @@ class CompetitionsVC: UIViewController {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        // Hide the Navigation Bar
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }

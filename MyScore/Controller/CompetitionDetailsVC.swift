@@ -65,6 +65,10 @@ class CompetitionDetailsVC: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
     func setupTransparentNavBar() {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -110,6 +114,7 @@ class CompetitionDetailsVC: UIViewController {
             self.shapeLayer.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         }
         competitionTableView.reloadData()
+        slideAnimationForTable()
     }
     
     @IBAction func tablePressed(_ sender: UIButton) {
@@ -122,6 +127,16 @@ class CompetitionDetailsVC: UIViewController {
             self.shapeLayer.frame = CGRect(x: x, y: 0, width: 0, height: 0)
         }
         competitionTableView.reloadData()
+        slideAnimationForTable()
+    }
+    
+    func slideAnimationForTable() {
+        let tx : CGFloat = state == .fixtures ? -500 : 500
+        let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, tx, 0, 0)
+        competitionTableView.layer.transform = rotationTransform
+        UIView.animate(withDuration: 0.35) {
+            self.competitionTableView.layer.transform = CATransform3DIdentity
+        }
     }
     
     func getCompetitionFixtures() {
