@@ -26,14 +26,14 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d8M-RX-nAU">
                         <rect key="frame" x="5" y="0.0" width="489" height="105.5"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PL-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="4Bf-bs-MdE">
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PL-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="4Bf-bs-MdE">
                                 <rect key="frame" x="15" y="15" width="75.5" height="75.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="4Bf-bs-MdE" secondAttribute="height" multiplier="1:1" id="tfP-2g-HK4"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wdk-YB-BiU">
-                                <rect key="frame" x="105.5" y="10" width="323.5" height="85.5"/>
+                                <rect key="frame" x="20" y="10" width="409" height="85.5"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -53,9 +53,9 @@
                         <color key="backgroundColor" white="0.0" alpha="0.60027825339999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Wdk-YB-BiU" firstAttribute="top" secondItem="d8M-RX-nAU" secondAttribute="top" constant="10" id="E2w-h2-VrE"/>
-                            <constraint firstItem="Wdk-YB-BiU" firstAttribute="leading" secondItem="4Bf-bs-MdE" secondAttribute="trailing" constant="15" id="L9C-SR-KtT"/>
                             <constraint firstAttribute="trailing" secondItem="EGP-o1-aME" secondAttribute="trailing" constant="15" id="Tnv-6m-yAS"/>
                             <constraint firstItem="4Bf-bs-MdE" firstAttribute="leading" secondItem="d8M-RX-nAU" secondAttribute="leading" constant="15" id="WZy-l6-MTj"/>
+                            <constraint firstItem="Wdk-YB-BiU" firstAttribute="leading" secondItem="d8M-RX-nAU" secondAttribute="leading" constant="20" id="WhL-zk-Who"/>
                             <constraint firstAttribute="bottom" secondItem="4Bf-bs-MdE" secondAttribute="bottom" constant="15" id="b6M-oq-PGP"/>
                             <constraint firstAttribute="bottom" secondItem="Wdk-YB-BiU" secondAttribute="bottom" constant="10" id="dNf-Yu-BwE"/>
                             <constraint firstItem="4Bf-bs-MdE" firstAttribute="top" secondItem="d8M-RX-nAU" secondAttribute="top" constant="15" id="dlB-Ub-IaJ"/>

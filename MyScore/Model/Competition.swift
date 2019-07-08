@@ -24,6 +24,13 @@ struct CompetitionDetailsResponse : Codable {
     
 }
 
+struct TeamDetailsResponse : Codable {
+    let id : Int
+    let name : String
+    let squad : [Player]
+    
+}
+
 struct TableStandingsResponse : Codable {
     let competition : Competition
     let season : Season
@@ -91,9 +98,8 @@ struct MatchTeam : Codable {
     let name : String
     let coach : Coach?
     let captain : Captain?
-    let lineUp : [MatchPlayer]?
-    let bench : [MatchPlayer]?
-    
+    let lineUp : [Player]?
+    let bench : [Player]?
 }
 
 struct Coach : Codable {
@@ -108,8 +114,8 @@ struct Score : Codable {
 
 struct Goals : Codable {
     let minute : Int
-    let scorer : MatchPlayer
-    let assist : MatchPlayer
+    let scorer : Player
+    let assist : Player
 }
 
 struct Captain : Codable {
@@ -124,22 +130,21 @@ struct Season : Codable {
     let endDate : String
 }
 
-struct MatchPlayer : Codable {
-    let id : Int
-    let name : String
-    let position : String?
-    let shirtNumber : Int?
+struct Squad : Codable {
+    let squad : [Player]
 }
 
 struct Player : Codable {
     let id : Int
     let name : String
-    let firstName : String
+    let firstName : String?
     let lastName : String?
+    let shirtNumber : Int?
     let dateOfBirth : String
     let countryOfBirth : String
     let nationality : String
-    let position : String
+    let position : String?
+    let role : String?
 }
 
 

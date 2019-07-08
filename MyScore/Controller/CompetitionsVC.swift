@@ -22,7 +22,7 @@ class CompetitionsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         setupTable()
         getAllCompetitions()
         setNeedsStatusBarAppearanceUpdate()
@@ -30,11 +30,9 @@ class CompetitionsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        // Show the Navigation Bar
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         competitionsTableView.reloadData()
         if Storage.fileExists(.competition, in: .documents) {
-            // we have messages to retrieve
             following = Storage.retrieve(.competition, from: .documents, as: [Competition].self)
         }
     }
@@ -53,7 +51,8 @@ class CompetitionsVC: UIViewController {
     //Mark: Competition request
     func getAllCompetitions() {
         guard let url = URL(string: MyScoreURL.competitions + filter) else { return }
-        APIManager.shared.apiRequest(url: url, onSuccess: { [weak self] (data) in
+        print(url)
+        APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
                 let competitionData = try JSONDecoder().decode(CompetitionsResponse.self, from: data)
                 self?.allCompetitions = competitionData.competitions

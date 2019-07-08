@@ -107,27 +107,31 @@ class CompetitionDetailsVC: UIViewController {
     }
     
     @IBAction func fixturePressed(_ sender: UIButton) {
+        state = .fixtures
+        if !sender.isSelected {
+            slideAnimationForTable()
+        }
         sender.isSelected = true
         tableButton.isSelected = false
-        state = .fixtures
         UIView.animate(withDuration: 5) {
             self.shapeLayer.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         }
         competitionTableView.reloadData()
-        slideAnimationForTable()
     }
     
     @IBAction func tablePressed(_ sender: UIButton) {
-        fixtureButton.isSelected = false
         state = .table
+        if !sender.isSelected {
+            slideAnimationForTable()
+        }
         sender.isSelected = true
+        fixtureButton.isSelected = false
         let x = fixtureButton.frame.width + 10
         
         UIView.animate(withDuration: 5) {
             self.shapeLayer.frame = CGRect(x: x, y: 0, width: 0, height: 0)
         }
         competitionTableView.reloadData()
-        slideAnimationForTable()
     }
     
     func slideAnimationForTable() {
@@ -141,7 +145,7 @@ class CompetitionDetailsVC: UIViewController {
     
     func getCompetitionFixtures() {
         guard let url = getFixturesURL() else { return }
-        APIManager.shared.apiRequest(url: url, onSuccess: { [weak self] (data) in
+        APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
                 let competitionData = try JSONDecoder().decode(CompetitionDetailsResponse.self, from: data)
                 self?.allMatches = competitionData.matches
@@ -156,7 +160,7 @@ class CompetitionDetailsVC: UIViewController {
     
     func getTableForCompetition() {
         guard let url = getTableStandingsURL() else { return }
-        APIManager.shared.apiRequest(url: url, onSuccess: { [weak self] (data) in
+        APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
                 let competitionData = try JSONDecoder().decode(TableStandingsResponse.self, from: data)
                 self?.teamPositions = competitionData.standings.first?.table ?? []

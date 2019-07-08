@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,7 @@
 		7E4D4D4922929D71005C8A8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E4D4D4822929D71005C8A8B /* Assets.xcassets */; };
 		7E4D4D4C22929D71005C8A8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E4D4D4A22929D71005C8A8B /* LaunchScreen.storyboard */; };
 		7EA1911922A54D9100E7CEA7 /* FavouritesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1911822A54D9100E7CEA7 /* FavouritesVC.swift */; };
+		7EA2D1C422CCE0A5002C09D9 /* TeamDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA2D1C322CCE0A5002C09D9 /* TeamDetailsVC.swift */; };
 		7ECAA68822B1A72700AF7211 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECAA68722B1A72700AF7211 /* Storage.swift */; };
 		7EFD430822B12ACB0077B077 /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD430722B12ACB0077B077 /* ApiKey.swift */; };
 		7EFD430A22B12DBA0077B077 /* MyScoreURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD430922B12DBA0077B077 /* MyScoreURL.swift */; };
@@ -49,6 +50,7 @@
 		7E4D4D4B22929D71005C8A8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7E4D4D4D22929D71005C8A8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EA1911822A54D9100E7CEA7 /* FavouritesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesVC.swift; sourceTree = "<group>"; };
+		7EA2D1C322CCE0A5002C09D9 /* TeamDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailsVC.swift; sourceTree = "<group>"; };
 		7ECAA68722B1A72700AF7211 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		7EFD430722B12ACB0077B077 /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		7EFD430922B12DBA0077B077 /* MyScoreURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScoreURL.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				7E4D4D4322929D6E005C8A8B /* CompetitionsVC.swift */,
 				7E35C6E72294318D0068E158 /* CompetitionDetailsVC.swift */,
 				7EA1911822A54D9100E7CEA7 /* FavouritesVC.swift */,
+				7EA2D1C322CCE0A5002C09D9 /* TeamDetailsVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -281,20 +284,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MyScore/Pods-MyScore-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-MyScore/Pods-MyScore-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-MyScore/Pods-MyScore-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyScore/Pods-MyScore-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyScore/Pods-MyScore-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -311,6 +309,7 @@
 				7EFD430A22B12DBA0077B077 /* MyScoreURL.swift in Sources */,
 				7E28CDA922B7EE2600C0C626 /* DateHelper.swift in Sources */,
 				7E4D4D4422929D6E005C8A8B /* CompetitionsVC.swift in Sources */,
+				7EA2D1C422CCE0A5002C09D9 /* TeamDetailsVC.swift in Sources */,
 				7E35C6DB2292DB9C0068E158 /* Competition.swift in Sources */,
 				7E4D4D4222929D6E005C8A8B /* AppDelegate.swift in Sources */,
 				7E35C6F02295A42A0068E158 /* LeagueTableViewCell.swift in Sources */,

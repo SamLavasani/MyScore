@@ -6,6 +6,5 @@ target 'MyScore' do
   use_frameworks!
 
   # Pods for MyScore
-pod 'Alamofire', '~> 5.0.0-beta.5'
-
+pod 'Alamofire', '~> 4.0'
 end

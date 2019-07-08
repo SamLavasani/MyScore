@@ -12,10 +12,12 @@ class APIManager {
     
     static let shared = APIManager()
     
-    func apiRequest(url: URL, onSuccess: @escaping(Data) -> Void, onFailure: @escaping(Error) -> Void){
-        let tokenHeader = HTTPHeader(name: "X-Auth-Token", value: ApiKey.apiKey)
-        let headers = HTTPHeaders([tokenHeader])
-        AF.request(url, method: .get, parameters: [:], headers: headers).responseJSON { (response) in
+    func request(url: URL, onSuccess: @escaping(Data) -> Void, onFailure: @escaping(Error) -> Void){
+        let tokenHeader : [String : String] = ["X-Auth-Token" : ApiKey.apiKey]
+            //HTTPHeader(name: "X-Auth-Token", value: ApiKey.apiKey)
+//        let headers = HTTPHeaders(dictionaryLiteral: (tokenHeader))
+//            //HTTPHeaders(tokenHeader)
+        Alamofire.request(url, method: .get, parameters: [:], headers: tokenHeader).responseData { (response) in
             switch response.result {
             case .success:
                 guard let data = response.data else { return }

@@ -135,8 +135,12 @@ class FavouritesVC: UIViewController {
                 let competition = favouriteCompetitions[indexPath.row]
                 destinationVC.selectedCompetition = competition
             }
-        } else if (segue.identifier == "goToFixtureDetails") {
-            
+        } else if (segue.identifier == "goToTeamDetails") {
+            let destinationVC = segue.destination as! TeamDetailsVC
+            if let indexPath = followingTable.indexPathForSelectedRow {
+                let team = favouriteTeams[indexPath.row]
+                destinationVC.team = team
+            }
         } else {
             
         }
@@ -144,26 +148,30 @@ class FavouritesVC: UIViewController {
     
     
     @IBAction func teamsPressed(_ sender: UIButton) {
-        sender.isSelected = true
         state = .teams
+        if !sender.isSelected {
+            slideAnimationForTable()
+        }
+        sender.isSelected = true
         leaguesButton.isSelected = false
         UIView.animate(withDuration: 5) {
             self.shapeLayer.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         }
         self.followingTable.reloadData()
-        slideAnimationForTable()
     }
     
     @IBAction func leaguesPressed(_ sender: UIButton) {
-        sender.isSelected = true
         state = .leagues
+        if !sender.isSelected {
+            slideAnimationForTable()
+        }
+        sender.isSelected = true
         teamsButton.isSelected = false
         let x = teamsButton.frame.width + 10
         UIView.animate(withDuration: 5) {
             self.shapeLayer.frame = CGRect(x: x, y: 0, width: 0, height: 0)
         }
         self.followingTable.reloadData()
-        slideAnimationForTable()
     }
 }
 
@@ -214,6 +222,22 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
                 let followImage = isFollowing ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
                 cell.followButton.imageView?.image = followImage
                 cell.setTeam(team: team)
+//                let frame = CGRect(x: 10, y: 20, width: 50, height: 50)
+//                let webview = WKWebView(frame: frame)
+//                webview.uiDelegate = self
+//                webview.contentMode = .scaleToFill
+//                webview.clipsToBounds = true
+//                //cell.webView.uiDelegate = self
+//                if let crestUrl = team.crestUrl {
+//                    if let url = URL(string: crestUrl) {
+//                        let request = URLRequest(url: url)
+//                        webview.load(request)
+//                        cell.addSubview(webview)
+//                    }
+//                }
+//                if let imgData = team.imgData {
+//                    cell.imageView?.image = UIImage(data: imgData)
+//                }
                 return cell
             case .leagues:
                 let competition = favouriteCompetitions[indexPath.row]

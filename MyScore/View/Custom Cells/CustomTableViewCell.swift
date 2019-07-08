@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 
 protocol FollowDelegate {
     func didTapFollowButton<T>(object: T, type: Type)

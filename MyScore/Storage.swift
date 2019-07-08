@@ -44,11 +44,12 @@ public class Storage {
     }
     
     static func store<T: Encodable>(_ object: T, to directory: Directory, as fileName: Type) {
-        let url = getURL(for: directory).appendingPathComponent(fileName.rawValue, isDirectory: false)
         
+        let url = getURL(for: directory).appendingPathComponent(fileName.rawValue, isDirectory: false)
         let encoder = JSONEncoder()
         do {
             let data = try encoder.encode(object)
+            
             if FileManager.default.fileExists(atPath: url.path) {
                 try FileManager.default.removeItem(at: url)
                 //print(url.path)
