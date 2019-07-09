@@ -21,6 +21,7 @@ class TeamDetailsVC: UIViewController {
     
     var squad : [Player] = []
     var teamFixtures : [Match] = []
+    var sectionPositions : [String] = []
     var shapeLayer = CAShapeLayer()
     var favouriteFixtures : [Match] = [] {
         didSet {
@@ -111,6 +112,7 @@ class TeamDetailsVC: UIViewController {
             do {
                 let squadData = try JSONDecoder().decode(TeamDetailsResponse.self, from: data)
                 self?.squad = squadData.squad
+                self?.getSquadPostitions()
                 self?.teamTable.reloadData()
             } catch {
                 print(error)
@@ -146,6 +148,23 @@ class TeamDetailsVC: UIViewController {
         }
     }
     
+    func getSquadPostitions() {
+        sectionPositions.removeAll()
+        for player in squad {
+            if let position = player.position {
+                if(!sectionPositions.contains(position)) {
+                    sectionPositions.append(position)
+                }
+            }
+        }
+    }
+    
+    func getPlayersInSection(section: Int) -> [Player] {
+        let position = sectionPositions[section]
+        let sectionsPlayers = squad.filter({ return $0.position == position})
+        return sectionsPlayers
+    }
+    
     @IBAction func fixtureButtonPressed(_ sender: UIButton) {
         sender.isSelected = true
         state = .fixtures
@@ -172,6 +191,21 @@ class TeamDetailsVC: UIViewController {
 
 extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        switch state {
+        case .fixtures:
+            return 0
+        case .squad:
+            return sectionPositions.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionPositions[section]
+    }
+    
+    
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
@@ -181,7 +215,8 @@ extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
         case .fixtures:
             return teamFixtures.count
         case .squad:
-            return squad.count
+            let players = getPlayersInSection(section: section)
+            return players.count
             
         }
     }
@@ -206,7 +241,8 @@ extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
             return cell
         case .squad:
             let cell = teamTable.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
-            let player = squad[indexPath.row]
+            let playersInSection = getPlayersInSection(section: indexPath.section)
+            let player = playersInSection[indexPath.row]
             cell.followButton.isHidden = true
             cell.mainLabel.text = player.name
             return cell

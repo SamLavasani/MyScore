@@ -71,6 +71,7 @@ class FavouritesVC: UIViewController {
         fixtureTable.reloadData()
         slideAnimationForFixture()
         slideAnimationForTable()
+        print(favouriteFixtures[0])
     }
     
     override func viewDidLayoutSubviews() {
@@ -264,6 +265,8 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
             } else {
                 cell.timeLabel.text = dateInfo.time
             }
+            cell.homeTeamScore.isHidden = fixture.status == "SCHEDULED"
+            cell.awayTeamScore.isHidden = fixture.status == "SCHEDULED"
             cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, object: fixture)
             return cell
         }

@@ -145,6 +145,7 @@ class CompetitionDetailsVC: UIViewController {
     
     func getCompetitionFixtures() {
         guard let url = getFixturesURL() else { return }
+        print(url)
         APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
                 let competitionData = try JSONDecoder().decode(CompetitionDetailsResponse.self, from: data)

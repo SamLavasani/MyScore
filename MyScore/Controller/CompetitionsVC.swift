@@ -69,9 +69,10 @@ class CompetitionsVC: UIViewController {
     func getCompetitionsAreas() {
         sectionAreas.removeAll()
         for country in allCompetitions {
-            let countryName = country.area?.name
-            if(!sectionAreas.contains(countryName!)) {
-                sectionAreas.append(countryName!)
+            if let countryName = country.area?.name {
+                if(!sectionAreas.contains(countryName)) {
+                    sectionAreas.append(countryName)
+                }
             }
         }
     }
