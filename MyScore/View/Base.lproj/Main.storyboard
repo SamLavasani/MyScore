@@ -30,6 +30,62 @@
             </objects>
             <point key="canvasLocation" x="-2464" y="-170"/>
         </scene>
+        <!--Countries-->
+        <scene sceneID="Dug-yG-Fhg">
+            <objects>
+                <viewController id="3U5-8T-yxi" customClass="CountriesVC" customModule="MyScore" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3E0-gT-Yt5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="football_water" translatesAutoresizingMaskIntoConstraints="NO" id="SAZ-Ef-aO3">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                            </imageView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="CVT-3m-bZO">
+                                <rect key="frame" x="0.0" y="64" width="414" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9Qv-8e-d01">
+                                <rect key="frame" x="0.0" y="179" width="414" height="508"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Countries" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jit-ud-6i1">
+                                <rect key="frame" x="0.0" y="130" width="414" height="39"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="SAZ-Ef-aO3" secondAttribute="trailing" id="30j-Lj-oxW"/>
+                            <constraint firstItem="CVT-3m-bZO" firstAttribute="trailing" secondItem="MMY-el-pt6" secondAttribute="trailing" id="41e-wb-vHv"/>
+                            <constraint firstItem="MMY-el-pt6" firstAttribute="trailing" secondItem="Jit-ud-6i1" secondAttribute="trailing" id="8Ao-5r-GEP"/>
+                            <constraint firstItem="9Qv-8e-d01" firstAttribute="leading" secondItem="MMY-el-pt6" secondAttribute="leading" id="JpE-G3-DX0"/>
+                            <constraint firstItem="CVT-3m-bZO" firstAttribute="leading" secondItem="MMY-el-pt6" secondAttribute="leading" id="Ng3-Dy-GLP"/>
+                            <constraint firstAttribute="bottom" secondItem="SAZ-Ef-aO3" secondAttribute="bottom" id="UDL-oc-8vZ"/>
+                            <constraint firstItem="SAZ-Ef-aO3" firstAttribute="leading" secondItem="3E0-gT-Yt5" secondAttribute="leading" id="Xft-yv-Uug"/>
+                            <constraint firstItem="9Qv-8e-d01" firstAttribute="trailing" secondItem="MMY-el-pt6" secondAttribute="trailing" id="Zxc-OA-0Im"/>
+                            <constraint firstItem="Jit-ud-6i1" firstAttribute="leading" secondItem="3E0-gT-Yt5" secondAttribute="leading" id="cIS-BH-Xdb"/>
+                            <constraint firstItem="CVT-3m-bZO" firstAttribute="top" secondItem="MMY-el-pt6" secondAttribute="top" id="gli-mI-gmu"/>
+                            <constraint firstItem="Jit-ud-6i1" firstAttribute="top" secondItem="CVT-3m-bZO" secondAttribute="bottom" constant="10" id="l9E-Yz-tyS"/>
+                            <constraint firstItem="MMY-el-pt6" firstAttribute="bottom" secondItem="9Qv-8e-d01" secondAttribute="bottom" id="lVI-mI-hbo"/>
+                            <constraint firstItem="SAZ-Ef-aO3" firstAttribute="top" secondItem="3E0-gT-Yt5" secondAttribute="top" id="r5k-aL-YrF"/>
+                            <constraint firstItem="9Qv-8e-d01" firstAttribute="top" secondItem="Jit-ud-6i1" secondAttribute="bottom" constant="10" id="tPJ-fV-l8N"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="MMY-el-pt6"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Countries" id="2IO-bQ-qNc"/>
+                    <connections>
+                        <outlet property="countriesTableView" destination="9Qv-8e-d01" id="qPG-f8-xGo"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="goToLeagues" id="Zts-K0-G21"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IQi-Jz-ayq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-926.08695652173924" y="-1064.6739130434783"/>
+        </scene>
         <!--CompetitionsVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -93,7 +149,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-494" y="-1035"/>
+            <point key="canvasLocation" x="-75" y="-1035"/>
         </scene>
         <!--FavouritesVC-->
         <scene sceneID="Rh8-53-jP7">
@@ -426,12 +482,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="EA9-ms-v7o"/>
+                        <segue destination="3U5-8T-yxi" kind="relationship" relationship="rootViewController" id="in8-VP-nyK"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KIv-wE-gI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1497" y="-1035"/>
+            <point key="canvasLocation" x="-1841" y="-1094"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WeV-l7-R4p">

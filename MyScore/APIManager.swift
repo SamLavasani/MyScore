@@ -13,10 +13,7 @@ class APIManager {
     static let shared = APIManager()
     
     func request(url: URL, onSuccess: @escaping(Data) -> Void, onFailure: @escaping(Error) -> Void){
-        let tokenHeader : [String : String] = ["X-Auth-Token" : ApiKey.apiKey]
-            //HTTPHeader(name: "X-Auth-Token", value: ApiKey.apiKey)
-//        let headers = HTTPHeaders(dictionaryLiteral: (tokenHeader))
-//            //HTTPHeaders(tokenHeader)
+        let tokenHeader : [String : String] = ["X-RapidAPI-Key" : ApiKey.apiKey]
         Alamofire.request(url, method: .get, parameters: [:], headers: tokenHeader).responseData { (response) in
             switch response.result {
             case .success:

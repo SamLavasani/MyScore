@@ -10,7 +10,7 @@ import Foundation
 
 enum Type: String {
     case team = "MyTeams"
-    case competition = "MyCompetitions"
+    case leagues = "MyLeagues"
     case fixtures = "MyFixtures"
 }
 

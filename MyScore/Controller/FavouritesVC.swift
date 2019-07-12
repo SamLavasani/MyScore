@@ -24,9 +24,9 @@ class FavouritesVC: UIViewController {
     @IBOutlet weak var followingTable: UITableView!
     @IBOutlet weak var backgroundImage: UIImageView!
     
-    var favouriteCompetitions : [Competition] = [] {
+    var favouriteLeagues : [League] = [] {
         didSet {
-            Storage.store(favouriteCompetitions, to: .documents, as: .competition)
+            Storage.store(favouriteLeagues, to: .documents, as: .leagues)
         }
     }
     var favouriteTeams : [Team] = [] {
@@ -34,7 +34,7 @@ class FavouritesVC: UIViewController {
             Storage.store(favouriteTeams, to: .documents, as: .team)
         }
     }
-    var favouriteFixtures : [Match] = [] {
+    var favouriteFixtures : [Fixture] = [] {
         didSet {
             Storage.store(favouriteFixtures, to: .documents, as: .fixtures)
         }
@@ -58,20 +58,19 @@ class FavouritesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
-        if Storage.fileExists(.competition, in: .documents) {
-            favouriteCompetitions = Storage.retrieve(.competition, from: .documents, as: [Competition].self)
+        if Storage.fileExists(.leagues, in: .documents) {
+            favouriteLeagues = Storage.retrieve(.leagues, from: .documents, as: [League].self)
         }
         if Storage.fileExists(.team, in: .documents) {
             favouriteTeams = Storage.retrieve(.team, from: .documents, as: [Team].self)
         }
         if Storage.fileExists(.fixtures, in: .documents) {
-            favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [Match].self)
+            favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [Fixture].self)
         }
         followingTable.reloadData()
         fixtureTable.reloadData()
         slideAnimationForFixture()
         slideAnimationForTable()
-        print(favouriteFixtures[0])
     }
     
     override func viewDidLayoutSubviews() {
@@ -133,8 +132,8 @@ class FavouritesVC: UIViewController {
         if (segue.identifier == "goToCompDetails") {
             let destinationVC = segue.destination as! CompetitionDetailsVC
             if let indexPath = followingTable.indexPathForSelectedRow {
-                let competition = favouriteCompetitions[indexPath.row]
-                destinationVC.selectedCompetition = competition
+                let league = favouriteLeagues[indexPath.row]
+                destinationVC.selectedLeague = league
             }
         } else if (segue.identifier == "goToTeamDetails") {
             let destinationVC = segue.destination as! TeamDetailsVC
@@ -192,7 +191,7 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
             case .teams:
                 return self.favouriteTeams.count
             case .leagues:
-                return self.favouriteCompetitions.count
+                return self.favouriteLeagues.count
             }
         } else {
             return favouriteFixtures.count
@@ -218,32 +217,16 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
             switch state {
             case .teams:
                 let team = favouriteTeams[indexPath.row]
-                let isFollowing = FollowHelper.isFollowing(type: .team, object: team)
+                let isFollowing = FollowHelper.isFollowing(type: .team, id:: team)
                 cell.mainLabel.text = team.name
                 let followImage = isFollowing ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
                 cell.followButton.imageView?.image = followImage
                 cell.setTeam(team: team)
-//                let frame = CGRect(x: 10, y: 20, width: 50, height: 50)
-//                let webview = WKWebView(frame: frame)
-//                webview.uiDelegate = self
-//                webview.contentMode = .scaleToFill
-//                webview.clipsToBounds = true
-//                //cell.webView.uiDelegate = self
-//                if let crestUrl = team.crestUrl {
-//                    if let url = URL(string: crestUrl) {
-//                        let request = URLRequest(url: url)
-//                        webview.load(request)
-//                        cell.addSubview(webview)
-//                    }
-//                }
-//                if let imgData = team.imgData {
-//                    cell.imageView?.image = UIImage(data: imgData)
-//                }
                 return cell
             case .leagues:
-                let competition = favouriteCompetitions[indexPath.row]
-                let isFollowing = FollowHelper.isFollowing(type: .competition, object: competition)
-                cell.setCompetition(comp: competition)
+                let competition = favouriteLeagues[indexPath.row]
+                let isFollowing = FollowHelper.isFollowing(type: .leagues, id:: competition)
+                cell.setLeague(league: competition)
                 cell.delegate = self
                 cell.mainLabel.text = competition.name
                 cell.followButton.isSelected = isFollowing
@@ -254,20 +237,20 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
             let fixture = favouriteFixtures[indexPath.row]
-            cell.homeTeamLabel.text = fixture.homeTeam.name
-            cell.awayTeamLabel.text = fixture.awayTeam.name
+            cell.homeTeamLabel.text = fixture.homeTeam.team_name
+            cell.awayTeamLabel.text = fixture.awayTeam.team_name
             cell.setFixture(fixture: fixture)
             cell.delegate = self
-            let dateInfo = DateHelper.getDateFromString(date: fixture.utcDate)
+            let dateInfo = DateHelper.getDateFromString(date: fixture.event_date)
             cell.dateLabel.text = dateInfo.date
-            if let minute = fixture.minute {
+            if let minute = fixture.elapsed {
                 cell.timeLabel.text = "\(minute)"
             } else {
                 cell.timeLabel.text = dateInfo.time
             }
             cell.homeTeamScore.isHidden = fixture.status == "SCHEDULED"
             cell.awayTeamScore.isHidden = fixture.status == "SCHEDULED"
-            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, object: fixture)
+            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id:: fixture)
             return cell
         }
     }
@@ -276,37 +259,37 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
 extension FavouritesVC: FollowDelegate {
     
     func didTapFollowButton<T>(object: T, type: Type) {
-        let following = FollowHelper.isFollowing(type: type, object: object)
+        let following = FollowHelper.isFollowing(type: type, id:: object)
 
         if(following) {
             switch type {
-            case .competition:
-                let comp = object as! Competition
-                favouriteCompetitions.removeAll { (competition) -> Bool in
-                    competition.id == comp.id
+            case .leagues:
+                let league = object as! League
+                favouriteLeagues.removeAll { (leagues) -> Bool in
+                    leagues.league_id == league.league_id
                 }
             case .team:
                 let team = object as! Team
                 favouriteTeams.removeAll { (teams) -> Bool in
-                    teams.id == team.id
+                    teams.team_id == team.team_id
                 }
             case .fixtures:
-                let match = object as! Match
+                let match = object as! Fixture
                 favouriteFixtures.removeAll { (fixture) -> Bool in
-                    fixture.id == match.id
+                    fixture.fixture_id == match.fixture_id
                 }
             }
         }
         else {
             switch type {
-            case .competition:
-                let comp = object as! Competition
-                favouriteCompetitions.append(comp)
+            case .leagues:
+                let league = object as! League
+                favouriteLeagues.append(league)
             case .team:
                 let team = object as! Team
                 favouriteTeams.append(team)
             case .fixtures:
-                let match = object as! Match
+                let match = object as! Fixture
                 favouriteFixtures.append(match)
             }
         }

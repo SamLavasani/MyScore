@@ -35,4 +35,12 @@ struct DateHelper {
         let formattedDate = format.string(from: date)
         return formattedDate
     }
+    
+    static func getCurrentYear() -> String {
+        let date = Date()
+        let format = DateFormatter()
+        format.dateFormat = "yyyy"
+        let formattedDate = format.string(from: date)
+        return formattedDate
+    }
 }

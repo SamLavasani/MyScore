@@ -29,7 +29,7 @@ class CustomTableViewCell: UITableViewCell {
     
     @IBOutlet weak var followButton: UIButton!
     
-    var competition : Competition?
+    var league : League?
     var team : Team?
     
     override func awakeFromNib() {
@@ -39,9 +39,9 @@ class CustomTableViewCell: UITableViewCell {
         self.mainBackground.layer.masksToBounds = true
     }
     
-    func setCompetition(comp: Competition) {
-        self.competition = comp
-        mainLabel.text = comp.name
+    func setLeague(league: League) {
+        self.league = league
+        mainLabel.text = league.name
     }
     
     func setTeam(team: Team) {
@@ -51,8 +51,8 @@ class CustomTableViewCell: UITableViewCell {
     
     @IBAction func followButtonPressed(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
-        if let comp = competition {
-            delegate?.didTapFollowButton(object: comp, type: .competition)
+        if let comp = league {
+            delegate?.didTapFollowButton(object: comp, type: .leagues)
         }
         if let team = team {
             delegate?.didTapFollowButton(object: team, type: .team)

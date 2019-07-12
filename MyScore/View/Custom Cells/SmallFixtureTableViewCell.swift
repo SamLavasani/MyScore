@@ -26,7 +26,7 @@ class SmallFixtureTableViewCell: UITableViewCell {
     @IBOutlet weak var homeScoreConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var smallSeparator: UIView!
-    var match : Match?
+    var fixture : Fixture?
     var delegate : FollowDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,8 +36,8 @@ class SmallFixtureTableViewCell: UITableViewCell {
         self.mainBackgroundView.layer.masksToBounds = true
     }
     
-    func setFixture(fixture: Match) {
-        match = fixture
+    func setFixture(fixture: Fixture) {
+        self.fixture = fixture
         self.smallSeparator.isHidden = homeTeamScore.isHidden
         self.homeScoreConstraint.constant = self.smallSeparator.isHidden ? -10 : 20
     }
@@ -50,7 +50,7 @@ class SmallFixtureTableViewCell: UITableViewCell {
     }
     @IBAction func followButtonPressed(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
-        if let fixture = match {
+        if let fixture = fixture {
             delegate?.didTapFollowButton(object: fixture, type: .fixtures)
         }
     }

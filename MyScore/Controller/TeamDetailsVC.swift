@@ -20,10 +20,10 @@ class TeamDetailsVC: UIViewController {
     @IBOutlet weak var teamTable: UITableView!
     
     var squad : [Player] = []
-    var teamFixtures : [Match] = []
+    var teamFixtures : [Fixture] = []
     var sectionPositions : [String] = []
     var shapeLayer = CAShapeLayer()
-    var favouriteFixtures : [Match] = [] {
+    var favouriteFixtures : [Fixture] = [] {
         didSet {
             Storage.store(favouriteFixtures, to: .documents, as: .fixtures)
         }
@@ -41,7 +41,7 @@ class TeamDetailsVC: UIViewController {
     
     override func viewDidLoad() {
         teamLabel.text = team.name
-        venueLabel.text = team.venue
+        venueLabel.text = team.venue_name
         teamTable.delegate = self
         teamTable.dataSource = self
         teamTable.register(UINib(nibName: "SmallFixtureTableViewCell", bundle: nil), forCellReuseIdentifier: fixtureCellId)
@@ -49,7 +49,7 @@ class TeamDetailsVC: UIViewController {
         setupTransparentNavBar()
         setupUnderLine()
         if Storage.fileExists(.fixtures, in: .documents) {
-            favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [Match].self)
+            favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [Fixture].self)
         }
         getFixturesForTeam()
         getSquadFromTeam()
@@ -105,7 +105,7 @@ class TeamDetailsVC: UIViewController {
     }
     
     func getSquadFromTeam() {
-        let urlString = MyScoreURL.teams + "/\(team.id)"
+        let urlString = MyScoreURL.teams + "/\(team.team_id)"
         guard let url = URL(string: urlString) else { return }
         //print(url)
         APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
@@ -132,13 +132,13 @@ class TeamDetailsVC: UIViewController {
 //        let endDate = "2019-09-30"
 //        let filterDate = dateFrom + currentDate + dateTo + endDate
         let filter = filterMatches + "limit=10"
-        let urlString = MyScoreURL.teams + "/" + "\(team.id)" + filter
+        let urlString = MyScoreURL.teams + "/" + "\(team.team_id)" + filter
         guard let url = URL(string: urlString) else { return }
         print(url)
         APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
                 let fixtureData = try JSONDecoder().decode(MatchesResponse.self, from: data)
-                self?.teamFixtures = fixtureData.matches
+                //self?.teamFixtures = fixtureData.matches
                 self?.teamTable.reloadData()
             } catch {
                 print(error)
@@ -151,17 +151,17 @@ class TeamDetailsVC: UIViewController {
     func getSquadPostitions() {
         sectionPositions.removeAll()
         for player in squad {
-            if let position = player.position {
-                if(!sectionPositions.contains(position)) {
-                    sectionPositions.append(position)
-                }
+            let position = player.pos
+            if(!sectionPositions.contains(position)) {
+                sectionPositions.append(position)
             }
         }
+        
     }
     
     func getPlayersInSection(section: Int) -> [Player] {
         let position = sectionPositions[section]
-        let sectionsPlayers = squad.filter({ return $0.position == position})
+        let sectionsPlayers = squad.filter({ return $0.pos == position})
         return sectionsPlayers
     }
     
@@ -226,25 +226,25 @@ extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
         case .fixtures:
             let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
             let fixture = teamFixtures[indexPath.row]
-            cell.homeTeamLabel.text = fixture.homeTeam.name
-            cell.awayTeamLabel.text = fixture.awayTeam.name
+            cell.homeTeamLabel.text = fixture.homeTeam.team_name
+            cell.awayTeamLabel.text = fixture.awayTeam.team_name
             cell.setFixture(fixture: fixture)
             cell.delegate = self
-            let dateInfo = DateHelper.getDateFromString(date: fixture.utcDate)
+            let dateInfo = DateHelper.getDateFromString(date: fixture.event_date)
             cell.dateLabel.text = dateInfo.date
-            if let minute = fixture.minute {
+            if let minute = fixture.elapsed {
                 cell.timeLabel.text = "\(minute)"
             } else {
                 cell.timeLabel.text = dateInfo.time
             }
-            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, object: fixture)
+            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id:: fixture)
             return cell
         case .squad:
             let cell = teamTable.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
             let playersInSection = getPlayersInSection(section: indexPath.section)
             let player = playersInSection[indexPath.row]
             cell.followButton.isHidden = true
-            cell.mainLabel.text = player.name
+            cell.mainLabel.text = player.player
             return cell
         }
     }
@@ -254,11 +254,11 @@ extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
 
 extension TeamDetailsVC: FollowDelegate {
     func didTapFollowButton<T>(object: T, type: Type) {
-        let following = FollowHelper.isFollowing(type: type, object: object)
-        let match = object as! Match
+        let following = FollowHelper.isFollowing(type: type, id:: object)
+        let match = object as! Fixture
         if(following) {
             favouriteFixtures.removeAll { (fixture) -> Bool in
-                fixture.id == match.id
+                fixture.fixture_id == match.fixture_id
             }
         } else {
             favouriteFixtures.append(match)

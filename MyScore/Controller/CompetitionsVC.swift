@@ -14,31 +14,38 @@ class CompetitionsVC: UIViewController {
     
     @IBOutlet weak var competitionsTableView: UITableView!
     let cellId = "MyCell"
-    let filter = "?plan=TIER_ONE"
     
-    var allCompetitions : [Competition] = []
-    var sectionAreas : [String] = []
-    var following : [Competition] = []
+    var country : Country?
+    var allLeagues : [League] = []
+    var following : [League] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupTable()
-        getAllCompetitions()
+        getAllLeagues()
         setNeedsStatusBarAppearanceUpdate()
+        setupTransparentNavBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         competitionsTableView.reloadData()
-        if Storage.fileExists(.competition, in: .documents) {
-            following = Storage.retrieve(.competition, from: .documents, as: [Competition].self)
-        }
+//        if Storage.fileExists(.leagues, in: .documents) {
+//            following = Storage.retrieve(.leagues, from: .documents, as: [League].self)
+//        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    func setupTransparentNavBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
     }
     
     func setupTable() {
@@ -49,14 +56,15 @@ class CompetitionsVC: UIViewController {
     }
     
     //Mark: Competition request
-    func getAllCompetitions() {
-        guard let url = URL(string: MyScoreURL.competitions + filter) else { return }
-        print(url)
+    func getAllLeagues() {
+        
+        guard let countryName = country?.country else { return }
+        let filter = "/country/\(countryName)/\(DateHelper.getCurrentYear())"
+        guard let url = URL(string: MyScoreURL.leagues + filter) else { return }
         APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
-                let competitionData = try JSONDecoder().decode(CompetitionsResponse.self, from: data)
-                self?.allCompetitions = competitionData.competitions
-                self?.getCompetitionsAreas()
+                let leagueData = try JSONDecoder().decode(LeaguesResponse.self, from: data)
+                self?.allLeagues = leagueData.api.leagues
                 self?.competitionsTableView.reloadData()
             } catch {
                 print(error)
@@ -66,31 +74,13 @@ class CompetitionsVC: UIViewController {
         }
     }
     
-    func getCompetitionsAreas() {
-        sectionAreas.removeAll()
-        for country in allCompetitions {
-            if let countryName = country.area?.name {
-                if(!sectionAreas.contains(countryName)) {
-                    sectionAreas.append(countryName)
-                }
-            }
-        }
-    }
-    
-    func getCompetitionsInSection(section: Int) -> [Competition] {
-        let sectionArea = sectionAreas[section]
-        let sectionCompetitions = allCompetitions.filter({ return $0.area?.name == sectionArea})
-        return sectionCompetitions
-    }
-    
     //MARK: Segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! CompetitionDetailsVC
         if let indexPath = competitionsTableView.indexPathForSelectedRow {
-            let sectionCompetitions = getCompetitionsInSection(section: indexPath.section)
-            let competition = sectionCompetitions[indexPath.row]
-            destinationVC.selectedCompetition = competition
+            let league = allLeagues[indexPath.row]
+            destinationVC.selectedLeague = league
         }
     }
 
@@ -100,33 +90,23 @@ class CompetitionsVC: UIViewController {
 
 extension CompetitionsVC: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionAreas.count
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionAreas[section]
-    }
-    
-    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    //
-    //    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionCompetitions = getCompetitionsInSection(section: section)
-        return sectionCompetitions.count
+        return allLeagues.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let sectionCompetitions = getCompetitionsInSection(section: indexPath.section)
-        let competition = sectionCompetitions[indexPath.row]
+        //let sectionCompetitions = getCompetitionsInSection(section: indexPath.section)
+        let league = allLeagues[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
-        cell.setCompetition(comp: competition)
+        cell.setLeague(league: league)
         cell.delegate = self
-        cell.mainLabel.text = competition.name
-        cell.followButton.isSelected = FollowHelper.isFollowing(type: .competition, object: competition)
-        let followImage = FollowHelper.isFollowing(type: .competition, object: competition) ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
-        cell.followButton.imageView?.image = followImage
+        cell.mainLabel.text = league.name
+//        let followImage = FollowHelper.isFollowing(type: .leagues, object: league) ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
+        cell.followButton.isSelected = FollowHelper.isFollowing(type: .leagues, id:: league)
         return cell
         
     }
@@ -140,19 +120,19 @@ extension CompetitionsVC: UITableViewDataSource, UITableViewDelegate {
 //MARK: Delegates
 
 extension CompetitionsVC: FollowDelegate {
-    
+
     func didTapFollowButton<T>(object: T, type: Type) {
-        let comp = object as! Competition
-        let follow = FollowHelper.isFollowing(type: type, object: comp)
+        let comp = object as! League
+        let follow = FollowHelper.isFollowing(type: type, id:: comp)
         if(follow) {
             following.removeAll { (competition) -> Bool in
-                competition.id == comp.id
+                competition.league_id == comp.league_id
             }
         } else {
             following.append(comp)
         }
-        Storage.store(following, to: .documents, as: .competition)
+        Storage.store(following, to: .documents, as: .leagues)
     }
-    
+
 }
 
