@@ -10,7 +10,8 @@ import UIKit
 
 class TeamDetailsVC: UIViewController {
     
-    var team : Team!
+    var teamID : Int!
+    var selectedTeam : Team?
     
     @IBOutlet weak var teamLabel: UILabel!
     @IBOutlet weak var fixtureButton: UIButton!
@@ -19,9 +20,9 @@ class TeamDetailsVC: UIViewController {
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var teamTable: UITableView!
     
-    var squad : [Player] = []
+    //var squad : [Player] = []
     var teamFixtures : [Fixture] = []
-    var sectionPositions : [String] = []
+    //var sectionPositions : [String] = []
     var shapeLayer = CAShapeLayer()
     var favouriteFixtures : [Fixture] = [] {
         didSet {
@@ -40,23 +41,25 @@ class TeamDetailsVC: UIViewController {
     
     
     override func viewDidLoad() {
-        teamLabel.text = team.name
-        venueLabel.text = team.venue_name
         teamTable.delegate = self
         teamTable.dataSource = self
         teamTable.register(UINib(nibName: "SmallFixtureTableViewCell", bundle: nil), forCellReuseIdentifier: fixtureCellId)
         teamTable.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
         setupTransparentNavBar()
-        setupUnderLine()
         if Storage.fileExists(.fixtures, in: .documents) {
             favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [Fixture].self)
         }
+        getTeamFromID()
         getFixturesForTeam()
-        getSquadFromTeam()
+        //getSquadFromTeam()
         
     }
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        setupUnderLine()
     }
     
     func setupTransparentNavBar() {
@@ -104,15 +107,20 @@ class TeamDetailsVC: UIViewController {
         view.layer.addSublayer(shapeLayer)
     }
     
-    func getSquadFromTeam() {
-        let urlString = MyScoreURL.teams + "/\(team.team_id)"
+    func setupTeam() {
+        teamLabel.text = selectedTeam?.name
+        venueLabel.text = selectedTeam?.venue_name
+    }
+    
+    func getTeamFromID() {
+        let id = String(teamID)
+        let urlString = MyScoreURL.teams + "/team/\(id)"
         guard let url = URL(string: urlString) else { return }
-        //print(url)
         APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
-                let squadData = try JSONDecoder().decode(TeamDetailsResponse.self, from: data)
-                self?.squad = squadData.squad
-                self?.getSquadPostitions()
+                let teamData = try JSONDecoder().decode(TeamsResponse.self, from: data)
+                self?.selectedTeam = teamData.api.teams.first
+                self?.setupTeam()
                 self?.teamTable.reloadData()
             } catch {
                 print(error)
@@ -122,23 +130,42 @@ class TeamDetailsVC: UIViewController {
         }
     }
     
+//    func getSquadFromTeam() {
+//        let id = String(teamID)
+//        let urlString = MyScoreURL.teams + "/\(id)"
+//        guard let url = URL(string: urlString) else { return }
+//        //print(url)
+//        APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
+//            do {
+//                let squadData = try JSONDecoder().decode(TeamDetailsResponse.self, from: data)
+//                self?.squad = squadData.squad
+//                self?.getSquadPostitions()
+//                self?.teamTable.reloadData()
+//            } catch {
+//                print(error)
+//            }
+//        }) { (error) in
+//            print(error.localizedDescription)
+//        }
+//    }
+    
     func getFixturesForTeam() {
         // http://api.football-data.org/v2/teams/759/matches
         //https://api.football-data.org/v2/teams/64/matches
-        let filterMatches = "/matches?"
 //        let dateFrom = "dateFrom="
 //        let dateTo = "&dateTo="
 //        let currentDate = DateHelper.getCurrentDate()
 //        let endDate = "2019-09-30"
 //        let filterDate = dateFrom + currentDate + dateTo + endDate
-        let filter = filterMatches + "limit=10"
-        let urlString = MyScoreURL.teams + "/" + "\(team.team_id)" + filter
+        //let filter = filterMatches + "limit=10"
+        let id = String(teamID)
+        let urlString = MyScoreURL.fixtures  + "/team/\(id)"
         guard let url = URL(string: urlString) else { return }
         print(url)
         APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
-                let fixtureData = try JSONDecoder().decode(MatchesResponse.self, from: data)
-                //self?.teamFixtures = fixtureData.matches
+                let fixtureData = try JSONDecoder().decode(FixturesResponse.self, from: data)
+                self?.teamFixtures = fixtureData.api.fixtures
                 self?.teamTable.reloadData()
             } catch {
                 print(error)
@@ -148,22 +175,11 @@ class TeamDetailsVC: UIViewController {
         }
     }
     
-    func getSquadPostitions() {
-        sectionPositions.removeAll()
-        for player in squad {
-            let position = player.pos
-            if(!sectionPositions.contains(position)) {
-                sectionPositions.append(position)
-            }
-        }
-        
-    }
-    
-    func getPlayersInSection(section: Int) -> [Player] {
-        let position = sectionPositions[section]
-        let sectionsPlayers = squad.filter({ return $0.pos == position})
-        return sectionsPlayers
-    }
+//    func getPlayersInSection(section: Int) -> [Player] {
+//        let position = sectionPositions[section]
+//        let sectionsPlayers = squad.filter({ return $0.pos == position})
+//        return sectionsPlayers
+//    }
     
     @IBAction func fixtureButtonPressed(_ sender: UIButton) {
         sender.isSelected = true
@@ -191,18 +207,18 @@ class TeamDetailsVC: UIViewController {
 
 extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        switch state {
-        case .fixtures:
-            return 0
-        case .squad:
-            return sectionPositions.count
-        }
-    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        switch state {
+//        case .fixtures:
+//            return 0
+////        case .squad:
+////            return sectionPositions.count
+//        }
+//    }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionPositions[section]
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return sectionPositions[section]
+//    }
     
     
     
@@ -211,42 +227,42 @@ extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch state {
-        case .fixtures:
+//        switch state {
+//        case .fixtures:
             return teamFixtures.count
-        case .squad:
-            let players = getPlayersInSection(section: section)
-            return players.count
-            
-        }
+//        case .squad:
+//            let players = getPlayersInSection(section: section)
+//            return players.count
+//
+//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch state {
-        case .fixtures:
-            let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
-            let fixture = teamFixtures[indexPath.row]
-            cell.homeTeamLabel.text = fixture.homeTeam.team_name
-            cell.awayTeamLabel.text = fixture.awayTeam.team_name
-            cell.setFixture(fixture: fixture)
-            cell.delegate = self
-            let dateInfo = DateHelper.getDateFromString(date: fixture.event_date)
-            cell.dateLabel.text = dateInfo.date
-            if let minute = fixture.elapsed {
-                cell.timeLabel.text = "\(minute)"
-            } else {
-                cell.timeLabel.text = dateInfo.time
-            }
-            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id:: fixture)
-            return cell
-        case .squad:
-            let cell = teamTable.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
-            let playersInSection = getPlayersInSection(section: indexPath.section)
-            let player = playersInSection[indexPath.row]
-            cell.followButton.isHidden = true
-            cell.mainLabel.text = player.player
-            return cell
+//        switch state {
+//        case .fixtures:
+        let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
+        let fixture = teamFixtures[indexPath.row]
+        cell.homeTeamLabel.text = fixture.homeTeam.team_name
+        cell.awayTeamLabel.text = fixture.awayTeam.team_name
+        cell.setFixture(fixture: fixture)
+        cell.delegate = self
+        let dateInfo = DateHelper.getDateFromString(date: fixture.event_date)
+        cell.dateLabel.text = dateInfo.date
+        if let minute = fixture.elapsed {
+            cell.timeLabel.text = "\(minute)"
+        } else {
+            cell.timeLabel.text = dateInfo.time
         }
+        cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id: fixture.fixture_id)
+        return cell
+//        case .squad:
+//            let cell = teamTable.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
+//            let playersInSection = getPlayersInSection(section: indexPath.section)
+//            let player = playersInSection[indexPath.row]
+//            cell.followButton.isHidden = true
+//            cell.mainLabel.text = player.player
+//            return cell
+//        }
     }
     
     
@@ -254,8 +270,8 @@ extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
 
 extension TeamDetailsVC: FollowDelegate {
     func didTapFollowButton<T>(object: T, type: Type) {
-        let following = FollowHelper.isFollowing(type: type, id:: object)
         let match = object as! Fixture
+        let following = FollowHelper.isFollowing(type: type, id: match.fixture_id)
         if(following) {
             favouriteFixtures.removeAll { (fixture) -> Bool in
                 fixture.fixture_id == match.fixture_id

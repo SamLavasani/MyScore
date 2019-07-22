@@ -21,3 +21,10 @@ struct League : Codable {
     let standings : Int
     let is_current : Int
 }
+
+class MyLeague {
+    var league : League?
+    var fixtures : [Fixture] = []
+    var teams : [Team] = []
+    var standings : [Standing] = []
+}

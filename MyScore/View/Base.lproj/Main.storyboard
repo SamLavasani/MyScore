@@ -28,7 +28,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ux1-O5-sC9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2464" y="-170"/>
+            <point key="canvasLocation" x="-3042" y="-170"/>
         </scene>
         <!--Countries-->
         <scene sceneID="Dug-yG-Fhg">
@@ -95,7 +95,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stadium-background" translatesAutoresizingMaskIntoConstraints="NO" id="9L1-gA-PD1">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jBJ-JT-Q3a">
                                 <rect key="frame" x="20" y="181" width="374" height="506"/>
@@ -144,7 +144,6 @@
                     <connections>
                         <outlet property="competitionsTableView" destination="jBJ-JT-Q3a" id="AZx-m3-0BT"/>
                         <segue destination="cht-jj-E0P" kind="show" identifier="goToCompDetails" id="Bgc-2A-X14"/>
-                        <segue destination="fXI-e6-y1m" kind="show" identifier="goToTeamDetails" id="5M3-j9-spd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -160,7 +159,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="pfK-LB-Ag8">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Fixtures" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-ad-M6Z">
@@ -260,7 +259,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B2x-tg-v4d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-494" y="-169"/>
+            <point key="canvasLocation" x="-1114" y="-170"/>
         </scene>
         <!--Team DetailsVC-->
         <scene sceneID="Jxk-FV-3gu">
@@ -368,7 +367,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="qgw-Qg-eBA">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Competition" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PY3-qD-mwD">
                                 <rect key="frame" x="20" y="84" width="374" height="32.666666666666657"/>
@@ -440,6 +439,7 @@
                         <outlet property="competitionTableView" destination="uUj-Ji-BkT" id="GeL-jc-uJl"/>
                         <outlet property="fixtureButton" destination="YXW-BX-bpP" id="f2l-4q-3y0"/>
                         <outlet property="tableButton" destination="kei-49-xmm" id="89J-KH-Qry"/>
+                        <segue destination="fXI-e6-y1m" kind="show" identifier="goToTeamDetails" id="waa-ID-Thl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fG7-MN-d2J" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -506,7 +506,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LRo-VO-g3l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1496" y="-170"/>
+            <point key="canvasLocation" x="-2187" y="-170"/>
         </scene>
     </scenes>
     <resources>

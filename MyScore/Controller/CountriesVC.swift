@@ -37,7 +37,6 @@ class CountriesVC: UIViewController {
     
     func getAllCountries() {
         guard let url = URL(string: MyScoreURL.countries) else { return }
-        print(url)
         APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
                 let countryData = try JSONDecoder().decode(CountriesResponse.self, from: data)

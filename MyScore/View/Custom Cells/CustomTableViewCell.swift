@@ -12,12 +12,6 @@ import WebKit
 protocol FollowDelegate {
     func didTapFollowButton<T>(object: T, type: Type)
 }
-protocol FollowTeamDelegate {
-    func didTapFollowButton(team: Team)
-}
-protocol FollowMatchDelegate {
-    func didTapFollowButton(match: Match)
-}
 
 class CustomTableViewCell: UITableViewCell {
     

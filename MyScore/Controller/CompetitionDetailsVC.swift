@@ -15,7 +15,7 @@ class CompetitionDetailsVC: UIViewController {
         case table
     }
     
-    var selectedLeague : League?
+    var selectedLeague : MyLeague = MyLeague()
     let leagueCellId = "LeagueTableCell"
     let fixtureCellId = "SmallFixtureCell"
     var path = UIBezierPath()
@@ -29,10 +29,7 @@ class CompetitionDetailsVC: UIViewController {
     var shapeLayer = CAShapeLayer()
     private var state : State = .fixtures
     
-    var allFixtures : [Fixture] = []
-    //var teamPositions : [TeamPosition] = []
-    var standings : [Standing] = []
-    var favouriteFixtures : [Fixture] = [] {
+    var favouriteFixtures : [FixtureStorage] = [] {
         didSet {
             Storage.store(favouriteFixtures, to: .documents, as: .fixtures)
         }
@@ -48,18 +45,23 @@ class CompetitionDetailsVC: UIViewController {
         competitionTableView.delegate = self
         competitionTableView.dataSource = self
         competitionTableView.separatorStyle = .none
-        competitionLabel.text = selectedLeague?.name
+        competitionLabel.text = selectedLeague.league?.name
         competitionTableView.register(UINib(nibName: "SmallFixtureTableViewCell", bundle: nil), forCellReuseIdentifier: fixtureCellId)
         competitionTableView.register(UINib(nibName: "LeagueTableViewCell", bundle: nil), forCellReuseIdentifier: leagueCellId)
         if Storage.fileExists(.fixtures, in: .documents) {
-         favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [Fixture].self)
+         favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [FixtureStorage].self)
         }
         if Storage.fileExists(.team, in: .documents) {
             favouriteTeams = Storage.retrieve(.team, from: .documents, as: [Team].self)
         }
         getLeagueFixtures()
         getStandingsInLeague()
+        getTeamsInLeague()
         setupTransparentNavBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     func setupTransparentNavBar() {
@@ -137,13 +139,13 @@ class CompetitionDetailsVC: UIViewController {
     }
     
     func getLeagueFixtures() {
-        guard let leagueID = selectedLeague?.league_id else { return }
-        let filter = "/league/\(leagueID)"
+        guard let id = selectedLeague.league?.league_id else { return }
+        let filter = "/league/\(id)"
         guard let url = URL(string: MyScoreURL.fixtures + filter) else { return }
         APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
                 let fixtureData = try JSONDecoder().decode(FixturesResponse.self, from: data)
-                self?.allFixtures = fixtureData.api.fixtures
+                self?.selectedLeague.fixtures = fixtureData.api.fixtures
                 self?.competitionTableView.reloadData()
             } catch {
                 print(error)
@@ -154,13 +156,13 @@ class CompetitionDetailsVC: UIViewController {
     }
     
     func getStandingsInLeague() {
-        guard let leagueID = selectedLeague?.league_id else { return }
-        guard let url = URL(string: "\(MyScoreURL.leagueTable)\(leagueID)") else { return }
+        guard let id = selectedLeague.league?.league_id else { return }
+        guard let url = URL(string: "\(MyScoreURL.leagueTable)\(id)") else { return }
         APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
             do {
                 let standingsData = try JSONDecoder().decode(StandingsResponse.self, from: data)
                 guard let tableStandings = standingsData.api.standings.first else { return }
-                self?.standings = tableStandings
+                self?.selectedLeague.standings = tableStandings
                 self?.competitionTableView.reloadData()
             } catch {
                 print(error)
@@ -169,14 +171,38 @@ class CompetitionDetailsVC: UIViewController {
             print(error)
         }
     }
+    
+    func getTeamsInLeague() {
+        guard let id = selectedLeague.league?.league_id else { return }
+        guard let url = URL(string: "\(MyScoreURL.teams)/league/\(id)") else { return }
+        APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
+            do {
+                let teamsData = try JSONDecoder().decode(TeamsResponse.self, from: data)
+                self?.selectedLeague.teams = teamsData.api.teams
+                self?.competitionTableView.reloadData()
+            } catch {
+                print(error)
+            }
+        }) { (error) in
+            print(error)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! TeamDetailsVC
+        if let indexPath = competitionTableView.indexPathForSelectedRow {
+            let standing = selectedLeague.standings[indexPath.row]
+            destinationVC.teamID = standing.team_id
+        }
+    }
 }
 
 extension CompetitionDetailsVC: FollowDelegate {
     func didTapFollowButton<T>(object: T, type: Type) {
-        let following = FollowHelper.isFollowing(type: type, id:: object)
         
         if type == .team {
             let team = object as! Team
+            let following = FollowHelper.isFollowing(type: type, id: team.team_id)
             if(following) {
                 favouriteTeams.removeAll { (teams) -> Bool in
                     teams.team_id == team.team_id
@@ -187,12 +213,14 @@ extension CompetitionDetailsVC: FollowDelegate {
             
         } else {
             let fixture = object as! Fixture
+            let following = FollowHelper.isFollowing(type: type, id: fixture.fixture_id)
             if(following) {
                 favouriteFixtures.removeAll { (match) -> Bool in
-                    match.fixture_id == fixture.fixture_id
+                    match.id == fixture.fixture_id
                 }
             } else {
-                favouriteFixtures.append(fixture)
+                let fixtureStorage = FixtureStorage(id: fixture.fixture_id)
+                favouriteFixtures.append(fixtureStorage)
             }
             
         }
@@ -205,16 +233,25 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch state {
         case .fixtures:
-            return allFixtures.count
+            return selectedLeague.fixtures.count
         case .table:
-            return standings.count
+            return selectedLeague.standings.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch state {
+        case .table:
+            performSegue(withIdentifier: "goToTeamDetails", sender: self)
+        default:
+            return
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch state {
         case .fixtures:
-            let match = allFixtures[indexPath.row]
+            let match = selectedLeague.fixtures[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
             let dateInfo = DateHelper.getDateFromString(date: match.event_date)
             cell.delegate = self
@@ -224,11 +261,11 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
             cell.timeLabel.text = dateInfo.time
             cell.homeTeamScore.isHidden = match.status != "LIVE"
             cell.awayTeamScore.isHidden = match.status != "LIVE"
-            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id:: match)
+            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id: match.fixture_id)
             cell.setFixture(fixture: match)
             return cell
         case .table:
-            let standing = standings[indexPath.row]
+            let standing = selectedLeague.standings[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: leagueCellId, for: indexPath) as! LeagueTableViewCell
             cell.delegate = self
             cell.teamNameLabel.text = standing.teamName
@@ -236,8 +273,9 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
             cell.goalDifferenceLabel.text = "GD: \(standing.goalsDiff)"
             cell.teamPosition.text = "#\(standing.rank)"
             cell.pointsLabel.text = "PTS: \(standing.points)"
-            cell.followButton.isSelected = FollowHelper.isFollowing(type: .team, id:: standing.team_id)
-            //cell.setTeam(team: position.team)
+            cell.followButton.isSelected = FollowHelper.isFollowing(type: .team, id: standing.team_id)
+            let team = selectedLeague.teams.filter({ $0.team_id == standing.team_id })
+            if let team = team.first { cell.setTeam(team: team) }
             return cell
         }
     }

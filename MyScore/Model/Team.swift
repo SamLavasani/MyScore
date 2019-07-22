@@ -11,15 +11,15 @@ import UIKit
 struct Team : Codable {
     let team_id : Int
     let name : String
-    let code : String
-    let logo : String
+    let code : String?
+    let logo : String?
     let country : String
-    let founded : Int
-    let venue_name : String
-    let venue_surface : String
-    let venue_address : String
-    let venue_city : String
-    let venue_capacity : Int
+    let founded : Int?
+    let venue_name : String?
+    let venue_surface : String?
+    let venue_address : String?
+    let venue_city : String?
+    let venue_capacity : Int?
     
     
 }

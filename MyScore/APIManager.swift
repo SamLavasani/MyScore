@@ -8,7 +8,7 @@
 
 import Alamofire
 
-class APIManager {
+struct APIManager {
     
     static let shared = APIManager()
     

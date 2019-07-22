@@ -24,21 +24,22 @@ class FavouritesVC: UIViewController {
     @IBOutlet weak var followingTable: UITableView!
     @IBOutlet weak var backgroundImage: UIImageView!
     
-    var favouriteLeagues : [League] = [] {
+    var followedLeagues : [League] = [] {
         didSet {
-            Storage.store(favouriteLeagues, to: .documents, as: .leagues)
+            Storage.store(followedLeagues, to: .documents, as: .leagues)
         }
     }
-    var favouriteTeams : [Team] = [] {
+    var followedTeams : [Team] = [] {
         didSet {
-            Storage.store(favouriteTeams, to: .documents, as: .team)
+            Storage.store(followedTeams, to: .documents, as: .team)
         }
     }
-    var favouriteFixtures : [Fixture] = [] {
+    var storedFixtures : [FixtureStorage] = [] {
         didSet {
-            Storage.store(favouriteFixtures, to: .documents, as: .fixtures)
+            Storage.store(storedFixtures, to: .documents, as: .fixtures)
         }
     }
+    var followedFixtures : [Fixture] = []
     var shapeLayer = CAShapeLayer()
     let cellId = "MyCell"
     let fixtureCellId = "SmallFixtureCell"
@@ -59,13 +60,13 @@ class FavouritesVC: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
         if Storage.fileExists(.leagues, in: .documents) {
-            favouriteLeagues = Storage.retrieve(.leagues, from: .documents, as: [League].self)
+            followedLeagues = Storage.retrieve(.leagues, from: .documents, as: [League].self)
         }
         if Storage.fileExists(.team, in: .documents) {
-            favouriteTeams = Storage.retrieve(.team, from: .documents, as: [Team].self)
+            followedTeams = Storage.retrieve(.team, from: .documents, as: [Team].self)
         }
         if Storage.fileExists(.fixtures, in: .documents) {
-            favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [Fixture].self)
+            storedFixtures = Storage.retrieve(.fixtures, from: .documents, as: [FixtureStorage].self)
         }
         followingTable.reloadData()
         fixtureTable.reloadData()
@@ -132,14 +133,14 @@ class FavouritesVC: UIViewController {
         if (segue.identifier == "goToCompDetails") {
             let destinationVC = segue.destination as! CompetitionDetailsVC
             if let indexPath = followingTable.indexPathForSelectedRow {
-                let league = favouriteLeagues[indexPath.row]
-                destinationVC.selectedLeague = league
+                let league = followedLeagues[indexPath.row]
+                destinationVC.selectedLeague.league = league
             }
         } else if (segue.identifier == "goToTeamDetails") {
             let destinationVC = segue.destination as! TeamDetailsVC
             if let indexPath = followingTable.indexPathForSelectedRow {
-                let team = favouriteTeams[indexPath.row]
-                destinationVC.team = team
+                let team = followedTeams[indexPath.row]
+                destinationVC.teamID = team.team_id
             }
         } else {
             
@@ -189,12 +190,12 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
         if tableView == followingTable {
             switch state {
             case .teams:
-                return self.favouriteTeams.count
+                return self.followedTeams.count
             case .leagues:
-                return self.favouriteLeagues.count
+                return self.followedLeagues.count
             }
         } else {
-            return favouriteFixtures.count
+            return followedFixtures.count
         }
     }
     
@@ -216,17 +217,17 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
             switch state {
             case .teams:
-                let team = favouriteTeams[indexPath.row]
-                let isFollowing = FollowHelper.isFollowing(type: .team, id:: team)
+                let team = followedTeams[indexPath.row]
+                let isFollowing = FollowHelper.isFollowing(type: .team, id: team.team_id)
                 cell.mainLabel.text = team.name
                 let followImage = isFollowing ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
                 cell.followButton.imageView?.image = followImage
-                cell.setTeam(team: team)
+                //cell.setTeam(team: team)
                 return cell
             case .leagues:
-                let competition = favouriteLeagues[indexPath.row]
-                let isFollowing = FollowHelper.isFollowing(type: .leagues, id:: competition)
-                cell.setLeague(league: competition)
+                let competition = followedLeagues[indexPath.row]
+                let isFollowing = FollowHelper.isFollowing(type: .leagues, id: competition.league_id)
+                //cell.setLeague(league: competition)
                 cell.delegate = self
                 cell.mainLabel.text = competition.name
                 cell.followButton.isSelected = isFollowing
@@ -236,7 +237,7 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
-            let fixture = favouriteFixtures[indexPath.row]
+            let fixture = followedFixtures[indexPath.row]
             cell.homeTeamLabel.text = fixture.homeTeam.team_name
             cell.awayTeamLabel.text = fixture.awayTeam.team_name
             cell.setFixture(fixture: fixture)
@@ -250,7 +251,7 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
             }
             cell.homeTeamScore.isHidden = fixture.status == "SCHEDULED"
             cell.awayTeamScore.isHidden = fixture.status == "SCHEDULED"
-            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id:: fixture)
+            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id: fixture.fixture_id)
             return cell
         }
     }
@@ -259,38 +260,36 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
 extension FavouritesVC: FollowDelegate {
     
     func didTapFollowButton<T>(object: T, type: Type) {
-        let following = FollowHelper.isFollowing(type: type, id:: object)
-
-        if(following) {
-            switch type {
-            case .leagues:
-                let league = object as! League
-                favouriteLeagues.removeAll { (leagues) -> Bool in
+        
+        switch type {
+        case .leagues:
+            let league = object as! League
+            let following = FollowHelper.isFollowing(type: type, id: league.league_id)
+            if(following) {
+                followedLeagues.removeAll { (leagues) -> Bool in
                     leagues.league_id == league.league_id
-                }
-            case .team:
-                let team = object as! Team
-                favouriteTeams.removeAll { (teams) -> Bool in
-                    teams.team_id == team.team_id
-                }
-            case .fixtures:
-                let match = object as! Fixture
-                favouriteFixtures.removeAll { (fixture) -> Bool in
-                    fixture.fixture_id == match.fixture_id
-                }
+                }} else {
+                followedLeagues.append(league)
             }
-        }
-        else {
-            switch type {
-            case .leagues:
-                let league = object as! League
-                favouriteLeagues.append(league)
-            case .team:
-                let team = object as! Team
-                favouriteTeams.append(team)
-            case .fixtures:
-                let match = object as! Fixture
-                favouriteFixtures.append(match)
+            
+        case .team:
+            let team = object as! Team
+            let following = FollowHelper.isFollowing(type: type, id: team.team_id)
+            if(following) {
+                followedTeams.removeAll { (teams) -> Bool in
+                    teams.team_id == team.team_id
+                }} else {
+                followedTeams.append(team)
+            }
+        case .fixtures:
+            let match = object as! Fixture
+            let following = FollowHelper.isFollowing(type: type, id: match.fixture_id)
+            if(following) {
+                storedFixtures.removeAll { (fixtures) -> Bool in
+                    fixtures.id == match.fixture_id
+                }} else {
+                let fixtureStorage = FixtureStorage(id: match.fixture_id)
+                storedFixtures.append(fixtureStorage)
             }
         }
         followingTable.reloadData()

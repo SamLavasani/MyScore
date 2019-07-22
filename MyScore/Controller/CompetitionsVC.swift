@@ -80,8 +80,9 @@ class CompetitionsVC: UIViewController {
         let destinationVC = segue.destination as! CompetitionDetailsVC
         if let indexPath = competitionsTableView.indexPathForSelectedRow {
             let league = allLeagues[indexPath.row]
-            destinationVC.selectedLeague = league
+            destinationVC.selectedLeague.league = league
         }
+        
     }
 
 }
@@ -99,14 +100,12 @@ extension CompetitionsVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let sectionCompetitions = getCompetitionsInSection(section: indexPath.section)
         let league = allLeagues[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
         cell.setLeague(league: league)
         cell.delegate = self
         cell.mainLabel.text = league.name
-//        let followImage = FollowHelper.isFollowing(type: .leagues, object: league) ? #imageLiteral(resourceName: "follow-selected") : #imageLiteral(resourceName: "follow")
-        cell.followButton.isSelected = FollowHelper.isFollowing(type: .leagues, id:: league)
+        cell.followButton.isSelected = FollowHelper.isFollowing(type: .leagues, id: league.league_id)
         return cell
         
     }
@@ -123,7 +122,7 @@ extension CompetitionsVC: FollowDelegate {
 
     func didTapFollowButton<T>(object: T, type: Type) {
         let comp = object as! League
-        let follow = FollowHelper.isFollowing(type: type, id:: comp)
+        let follow = FollowHelper.isFollowing(type: type, id: comp.league_id)
         if(follow) {
             following.removeAll { (competition) -> Bool in
                 competition.league_id == comp.league_id
