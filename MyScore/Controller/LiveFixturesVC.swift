@@ -17,6 +17,7 @@ class LiveFixturesVC: UIViewController {
         super.viewDidLoad()
         fixtureTableView.delegate = self
         fixtureTableView.dataSource = self
+        fixtureTableView.register(UINib(nibName: "SmallFixtureTableViewCell", bundle: nil), forCellReuseIdentifier: fixtureCellId)
     }
 }
 

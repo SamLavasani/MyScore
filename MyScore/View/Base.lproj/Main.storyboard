@@ -446,10 +446,10 @@
             </objects>
             <point key="canvasLocation" x="780" y="-1035"/>
         </scene>
-        <!--View Controller-->
+        <!--Live FixturesVC-->
         <scene sceneID="DFM-Ws-vH5">
             <objects>
-                <viewController id="2cR-md-dJF" sceneMemberID="viewController">
+                <viewController id="2cR-md-dJF" customClass="LiveFixturesVC" customModule="MyScore" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="64p-Xj-Oho">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -478,6 +478,9 @@
                         <viewLayoutGuide key="safeArea" id="Avx-kW-PzY"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="mostRecent" id="ohi-rm-K5R"/>
+                    <connections>
+                        <outlet property="fixtureTableView" destination="Di4-YD-zmD" id="kwr-jZ-M4v"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JdT-WW-kjQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
