@@ -95,7 +95,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stadium-background" translatesAutoresizingMaskIntoConstraints="NO" id="9L1-gA-PD1">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jBJ-JT-Q3a">
                                 <rect key="frame" x="20" y="181" width="374" height="506"/>
@@ -159,7 +159,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="pfK-LB-Ag8">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Fixtures" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-ad-M6Z">
@@ -367,7 +367,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="qgw-Qg-eBA">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Competition" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PY3-qD-mwD">
                                 <rect key="frame" x="20" y="84" width="374" height="32.666666666666657"/>
@@ -453,10 +453,31 @@
                     <view key="view" contentMode="scaleToFill" id="64p-Xj-Oho">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Di4-YD-zmD">
+                                <rect key="frame" x="10" y="73" width="394" height="614"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Live" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WrB-gT-HZX">
+                                <rect key="frame" x="10" y="30" width="394" height="33"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Avx-kW-PzY" firstAttribute="trailing" secondItem="WrB-gT-HZX" secondAttribute="trailing" constant="10" id="4Jb-rh-2w1"/>
+                            <constraint firstItem="WrB-gT-HZX" firstAttribute="leading" secondItem="Avx-kW-PzY" secondAttribute="leading" constant="10" id="ObT-cQ-LC5"/>
+                            <constraint firstItem="Avx-kW-PzY" firstAttribute="bottom" secondItem="Di4-YD-zmD" secondAttribute="bottom" id="Xse-tB-mMh"/>
+                            <constraint firstItem="Di4-YD-zmD" firstAttribute="top" secondItem="WrB-gT-HZX" secondAttribute="bottom" constant="10" id="ZD3-5B-ShF"/>
+                            <constraint firstItem="Avx-kW-PzY" firstAttribute="trailing" secondItem="Di4-YD-zmD" secondAttribute="trailing" constant="10" id="kNg-kM-kv3"/>
+                            <constraint firstItem="Di4-YD-zmD" firstAttribute="leading" secondItem="Avx-kW-PzY" secondAttribute="leading" constant="10" id="oja-Qn-WQ0"/>
+                            <constraint firstItem="WrB-gT-HZX" firstAttribute="top" secondItem="Avx-kW-PzY" secondAttribute="top" constant="10" id="rXU-VD-qSr"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Avx-kW-PzY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="search" id="ohi-rm-K5R"/>
+                    <tabBarItem key="tabBarItem" systemItem="mostRecent" id="ohi-rm-K5R"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JdT-WW-kjQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
