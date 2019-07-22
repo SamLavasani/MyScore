@@ -18,6 +18,26 @@ class LiveFixturesVC: UIViewController {
         fixtureTableView.delegate = self
         fixtureTableView.dataSource = self
         fixtureTableView.register(UINib(nibName: "SmallFixtureTableViewCell", bundle: nil), forCellReuseIdentifier: fixtureCellId)
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getLiveFixtures()
+    }
+    
+    func getLiveFixtures() {
+        guard let url = URL(string: MyScoreURL.liveFixtures) else { return }
+        APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
+            do {
+                let fixtureData = try JSONDecoder().decode(FixturesResponse.self, from: data)
+                self?.liveFixtures = fixtureData.api.fixtures
+                self?.fixtureTableView.reloadData()
+            } catch {
+                print(error)
+            }
+        }) { (error) in
+            
+        }
     }
 }
 
@@ -30,6 +50,10 @@ extension LiveFixturesVC: FollowDelegate {
 }
 
 extension LiveFixturesVC: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return liveFixtures.count
     }
