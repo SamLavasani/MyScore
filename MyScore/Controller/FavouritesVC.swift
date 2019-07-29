@@ -67,6 +67,8 @@ class FavouritesVC: UIViewController {
         }
         if Storage.fileExists(.fixtures, in: .documents) {
             storedFixtures = Storage.retrieve(.fixtures, from: .documents, as: [FixtureStorage].self)
+            followedFixtures = []
+            getSavedFixtures()
         }
         followingTable.reloadData()
         fixtureTable.reloadData()
@@ -76,6 +78,33 @@ class FavouritesVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         setupUnderLine()
+    }
+    
+    func getSavedFixtures() {
+        let fixtureGroup = DispatchGroup()
+        for (pos, localFixture) in storedFixtures.enumerated() {
+            fixtureGroup.enter()
+            let id = localFixture.id
+            let filter = "/id/\(id)"
+            guard let url = URL(string: MyScoreURL.fixtures + filter) else { return }
+            APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
+                do {
+                    let fixtureData = try JSONDecoder().decode(FixturesResponse.self, from: data)
+                    guard let fixture = fixtureData.api.fixtures.first else { return }
+                    self?.followedFixtures.append(fixture)
+                    print("Finished request \(pos)")
+                    fixtureGroup.leave()
+                } catch {
+                    print(error)
+                }
+            }) { (error) in
+                print(error)
+            }
+        }
+        fixtureGroup.notify(queue: .main) {
+            self.fixtureTable.reloadData()
+            self.slideAnimationForFixture()
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -244,13 +273,31 @@ extension FavouritesVC: UITableViewDelegate, UITableViewDataSource {
             cell.delegate = self
             let dateInfo = DateHelper.getDateFromString(date: fixture.event_date)
             cell.dateLabel.text = dateInfo.date
-            if let minute = fixture.elapsed {
-                cell.timeLabel.text = "\(minute)"
+            if fixture.status != "LIVE" {
+                if fixture.status == "Not Started"{
+                    cell.timeLabel.text = dateInfo.time
+                } else {
+                    cell.timeLabel.text = fixture.statusShort
+                }
             } else {
-                cell.timeLabel.text = dateInfo.time
+                if let minute = fixture.elapsed {
+                    cell.timeLabel.text = "\(minute)'"
+                } else {
+                    cell.timeLabel.text = dateInfo.time
+                }
             }
-            cell.homeTeamScore.isHidden = fixture.status == "SCHEDULED"
-            cell.awayTeamScore.isHidden = fixture.status == "SCHEDULED"
+            
+            if let homeGoals = fixture.goalsHomeTeam {
+                cell.homeTeamScore.text = "\(homeGoals)"
+            } else {
+                cell.homeTeamScore.text = ""
+            }
+            if let awayGoals = fixture.goalsAwayTeam {
+                cell.awayTeamScore.text = "\(awayGoals)"
+            } else {
+                cell.awayTeamScore.text = ""
+            }
+            
             cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id: fixture.fixture_id)
             return cell
         }

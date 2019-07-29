@@ -251,18 +251,44 @@ extension CompetitionDetailsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch state {
         case .fixtures:
-            let match = selectedLeague.fixtures[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
-            let dateInfo = DateHelper.getDateFromString(date: match.event_date)
+            
+            let fixture = selectedLeague.fixtures[indexPath.row]
+            
+            let dateInfo = DateHelper.getDateFromString(date: fixture.event_date)
             cell.delegate = self
-            cell.homeTeamLabel.text = match.homeTeam.team_name
-            cell.awayTeamLabel.text = match.awayTeam.team_name
+            cell.homeTeamLabel.text = fixture.homeTeam.team_name
+            cell.awayTeamLabel.text = fixture.awayTeam.team_name
             cell.dateLabel.text = dateInfo.date
-            cell.timeLabel.text = dateInfo.time
-            cell.homeTeamScore.isHidden = match.status != "LIVE"
-            cell.awayTeamScore.isHidden = match.status != "LIVE"
-            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id: match.fixture_id)
-            cell.setFixture(fixture: match)
+            
+            if fixture.status != "LIVE" {
+                if fixture.status == "Not Started"{
+                    cell.timeLabel.text = dateInfo.time
+                } else {
+                    cell.timeLabel.text = fixture.statusShort
+                }
+            } else {
+                if let minute = fixture.elapsed {
+                    cell.timeLabel.text = "\(minute)'"
+                } else {
+                    cell.timeLabel.text = dateInfo.time
+                }
+            }
+            
+            if let homeGoals = fixture.goalsHomeTeam {
+                cell.homeTeamScore.text = "\(homeGoals)"
+            } else {
+                cell.homeTeamScore.text = ""
+            }
+            
+            if let awayGoals = fixture.goalsAwayTeam {
+                cell.awayTeamScore.text = "\(awayGoals)"
+            } else {
+                cell.awayTeamScore.text = ""
+            }
+            
+            cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id: fixture.fixture_id)
+            cell.setFixture(fixture: fixture)
             return cell
         case .table:
             let standing = selectedLeague.standings[indexPath.row]

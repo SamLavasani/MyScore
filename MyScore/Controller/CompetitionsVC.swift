@@ -32,9 +32,9 @@ class CompetitionsVC: UIViewController {
         super.viewWillAppear(true)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         competitionsTableView.reloadData()
-//        if Storage.fileExists(.leagues, in: .documents) {
-//            following = Storage.retrieve(.leagues, from: .documents, as: [League].self)
-//        }
+        if Storage.fileExists(.leagues, in: .documents) {
+            following = Storage.retrieve(.leagues, from: .documents, as: [League].self)
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

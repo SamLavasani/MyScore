@@ -24,7 +24,7 @@ class TeamDetailsVC: UIViewController {
     var teamFixtures : [Fixture] = []
     //var sectionPositions : [String] = []
     var shapeLayer = CAShapeLayer()
-    var favouriteFixtures : [Fixture] = [] {
+    var favouriteFixtures : [FixtureStorage] = [] {
         didSet {
             Storage.store(favouriteFixtures, to: .documents, as: .fixtures)
         }
@@ -47,7 +47,7 @@ class TeamDetailsVC: UIViewController {
         teamTable.register(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
         setupTransparentNavBar()
         if Storage.fileExists(.fixtures, in: .documents) {
-            favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [Fixture].self)
+            favouriteFixtures = Storage.retrieve(.fixtures, from: .documents, as: [FixtureStorage].self)
         }
         getTeamFromID()
         getFixturesForTeam()
@@ -248,11 +248,31 @@ extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
         cell.delegate = self
         let dateInfo = DateHelper.getDateFromString(date: fixture.event_date)
         cell.dateLabel.text = dateInfo.date
-        if let minute = fixture.elapsed {
-            cell.timeLabel.text = "\(minute)"
+        if fixture.status != "LIVE" {
+            if fixture.status == "Not Started"{
+                cell.timeLabel.text = dateInfo.time
+            } else {
+                cell.timeLabel.text = fixture.statusShort
+            }
         } else {
-            cell.timeLabel.text = dateInfo.time
+            if let minute = fixture.elapsed {
+                cell.timeLabel.text = "\(minute)'"
+            } else {
+                cell.timeLabel.text = dateInfo.time
+            }
         }
+        
+        if let homeGoals = fixture.goalsHomeTeam {
+            cell.homeTeamScore.text = "\(homeGoals)"
+        } else {
+            cell.homeTeamScore.text = ""
+        }
+        if let awayGoals = fixture.goalsAwayTeam {
+            cell.awayTeamScore.text = "\(awayGoals)"
+        } else {
+            cell.awayTeamScore.text = ""
+        }
+        
         cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id: fixture.fixture_id)
         return cell
 //        case .squad:
@@ -274,10 +294,11 @@ extension TeamDetailsVC: FollowDelegate {
         let following = FollowHelper.isFollowing(type: type, id: match.fixture_id)
         if(following) {
             favouriteFixtures.removeAll { (fixture) -> Bool in
-                fixture.fixture_id == match.fixture_id
+                fixture.id == match.fixture_id
             }
         } else {
-            favouriteFixtures.append(match)
+            let fixtureStorage = FixtureStorage(id: match.fixture_id)
+            favouriteFixtures.append(fixtureStorage)
         }
     }
     
