@@ -171,8 +171,12 @@ class FavouritesVC: UIViewController {
                 let team = followedTeams[indexPath.row]
                 destinationVC.teamID = team.team_id
             }
-        } else {
-            
+        } else if (segue.identifier == "goToFixtureDetails") {
+            let destinationVC = segue.destination as! FixtureDetailsVC
+            if let indexPath = fixtureTable.indexPathForSelectedRow {
+                let fixture = followedFixtures[indexPath.row]
+                destinationVC.fixtureID = fixture.fixture_id
+            }
         }
     }
     

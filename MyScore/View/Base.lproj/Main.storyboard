@@ -95,7 +95,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stadium-background" translatesAutoresizingMaskIntoConstraints="NO" id="9L1-gA-PD1">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jBJ-JT-Q3a">
                                 <rect key="frame" x="20" y="158" width="374" height="529"/>
@@ -159,7 +159,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="pfK-LB-Ag8">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Fixtures" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-ad-M6Z">
@@ -255,23 +255,23 @@
                         <outlet property="teamsButton" destination="JMd-TL-X0z" id="T3k-DO-OWH"/>
                         <segue destination="cht-jj-E0P" kind="show" identifier="goToCompDetails" id="PuY-aP-WFx"/>
                         <segue destination="fXI-e6-y1m" kind="show" identifier="goToTeamDetails" id="ONf-IM-Q6u"/>
-                        <segue destination="maM-3r-XgB" kind="show" identifier="showFixtureDetails" id="kxo-Lz-ZkW"/>
+                        <segue destination="maM-3r-XgB" kind="show" identifier="goToFixtureDetails" id="kxo-Lz-ZkW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B2x-tg-v4d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1114" y="-170"/>
         </scene>
-        <!--View Controller-->
+        <!--Fixture DetailsVC-->
         <scene sceneID="bfv-7S-F0h">
             <objects>
-                <viewController id="maM-3r-XgB" sceneMemberID="viewController">
+                <viewController id="maM-3r-XgB" customClass="FixtureDetailsVC" customModule="MyScore" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ixh-fn-btb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="NY0-QF-WPR">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -297,7 +297,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="IML-lP-Bht">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5u-7O-iLy">
                                 <rect key="frame" x="20" y="94" width="374" height="52"/>
@@ -379,7 +379,7 @@
                         <outlet property="teamLabel" destination="S5u-7O-iLy" id="1Qy-EJ-bcy"/>
                         <outlet property="teamTable" destination="RdQ-CK-xaf" id="RhQ-sp-0OK"/>
                         <outlet property="venueLabel" destination="dqf-5f-eog" id="TBv-9F-bup"/>
-                        <segue destination="maM-3r-XgB" kind="show" identifier="showFixtureDetails" id="vvm-ki-iSH"/>
+                        <segue destination="maM-3r-XgB" kind="show" identifier="goToFixtureDetails" id="vvm-ki-iSH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gar-qU-EWn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -395,7 +395,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="qgw-Qg-eBA">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Competition" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PY3-qD-mwD">
                                 <rect key="frame" x="20" y="74" width="374" height="32.666666666666657"/>
@@ -468,7 +468,7 @@
                         <outlet property="fixtureButton" destination="YXW-BX-bpP" id="f2l-4q-3y0"/>
                         <outlet property="tableButton" destination="kei-49-xmm" id="89J-KH-Qry"/>
                         <segue destination="fXI-e6-y1m" kind="show" identifier="goToTeamDetails" id="waa-ID-Thl"/>
-                        <segue destination="maM-3r-XgB" kind="show" identifier="showFixtureDetails" id="HBB-ua-WH8"/>
+                        <segue destination="maM-3r-XgB" kind="show" identifier="goToFixtureDetails" id="HBB-ua-WH8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fG7-MN-d2J" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -484,7 +484,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="a06-Hj-RZh">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Di4-YD-zmD">
                                 <rect key="frame" x="10" y="79" width="394" height="608"/>
@@ -518,7 +518,7 @@
                     <tabBarItem key="tabBarItem" systemItem="mostRecent" id="ohi-rm-K5R"/>
                     <connections>
                         <outlet property="fixtureTableView" destination="Di4-YD-zmD" id="kwr-jZ-M4v"/>
-                        <segue destination="maM-3r-XgB" kind="show" identifier="showFixtureDetails" id="7bN-Vz-aja"/>
+                        <segue destination="maM-3r-XgB" kind="show" identifier="goToFixtureDetails" id="7bN-Vz-aja"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JdT-WW-kjQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -580,6 +580,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="Bgc-2A-X14"/>
         <segue reference="waa-ID-Thl"/>
-        <segue reference="vvm-ki-iSH"/>
+        <segue reference="HBB-ua-WH8"/>
     </inferredMetricsTieBreakers>
 </document>
