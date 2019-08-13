@@ -20,7 +20,7 @@ class TeamDetailsVC: UIViewController {
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var teamTable: UITableView!
     
-    //var squad : [Player] = []
+    var squad : [Player] = []
     var teamFixtures : [Fixture] = []
     //var sectionPositions : [String] = []
     var shapeLayer = CAShapeLayer()
@@ -51,7 +51,7 @@ class TeamDetailsVC: UIViewController {
         }
         getTeamFromID()
         getFixturesForTeam()
-        //getSquadFromTeam()
+        getSquadFromTeam()
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -130,24 +130,24 @@ class TeamDetailsVC: UIViewController {
         }
     }
     
-//    func getSquadFromTeam() {
-//        let id = String(teamID)
-//        let urlString = MyScoreURL.teams + "/\(id)"
-//        guard let url = URL(string: urlString) else { return }
-//        //print(url)
-//        APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
-//            do {
-//                let squadData = try JSONDecoder().decode(TeamDetailsResponse.self, from: data)
-//                self?.squad = squadData.squad
-//                self?.getSquadPostitions()
-//                self?.teamTable.reloadData()
-//            } catch {
-//                print(error)
-//            }
-//        }) { (error) in
-//            print(error.localizedDescription)
-//        }
-//    }
+    func getSquadFromTeam() {
+        let id = String(teamID)
+        let urlString = MyScoreURL.playersInTeam + "\(id)"
+        guard let url = URL(string: urlString) else { return }
+        //print(url)
+        APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
+            do {
+                let squadData = try JSONDecoder().decode(PlayersResponse.self, from: data)
+                self?.squad = squadData.api.players
+                //self?.getSquadPostitions()
+                self?.teamTable.reloadData()
+            } catch {
+                print(error)
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
     
     func getFixturesForTeam() {
         // http://api.football-data.org/v2/teams/759/matches
@@ -227,19 +227,18 @@ extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        switch state {
-//        case .fixtures:
+        switch state {
+        case .fixtures:
             return teamFixtures.count
-//        case .squad:
-//            let players = getPlayersInSection(section: section)
-//            return players.count
-//
-//        }
+        case .squad:
+            return squad.count
+
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        switch state {
-//        case .fixtures:
+        switch state {
+        case .fixtures:
         let cell = tableView.dequeueReusableCell(withIdentifier: fixtureCellId, for: indexPath) as! SmallFixtureTableViewCell
         let fixture = teamFixtures[indexPath.row]
         cell.homeTeamLabel.text = fixture.homeTeam.team_name
@@ -275,14 +274,13 @@ extension TeamDetailsVC: UITableViewDataSource, UITableViewDelegate {
         
         cell.followButton.isSelected = FollowHelper.isFollowing(type: .fixtures, id: fixture.fixture_id)
         return cell
-//        case .squad:
-//            let cell = teamTable.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
-//            let playersInSection = getPlayersInSection(section: indexPath.section)
-//            let player = playersInSection[indexPath.row]
-//            cell.followButton.isHidden = true
-//            cell.mainLabel.text = player.player
-//            return cell
-//        }
+        case .squad:
+            let cell = teamTable.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableViewCell
+            let player = squad[indexPath.row]
+            cell.followButton.isHidden = true
+            cell.mainLabel.text = player.player_name
+            return cell
+        }
     }
     
     
