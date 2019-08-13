@@ -15,7 +15,7 @@ struct Fixture : Codable {
     let event_timestamp : Int
     let firstHalfStart : Int?
     let secondHalfStart : Int?
-    let round : String
+    let round : String?
     let status : String
     let statusShort : String
     let elapsed : Int?

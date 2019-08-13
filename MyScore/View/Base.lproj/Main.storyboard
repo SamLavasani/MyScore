@@ -255,11 +255,27 @@
                         <outlet property="teamsButton" destination="JMd-TL-X0z" id="T3k-DO-OWH"/>
                         <segue destination="cht-jj-E0P" kind="show" identifier="goToCompDetails" id="PuY-aP-WFx"/>
                         <segue destination="fXI-e6-y1m" kind="show" identifier="goToTeamDetails" id="ONf-IM-Q6u"/>
+                        <segue destination="maM-3r-XgB" kind="show" identifier="showFixtureDetails" id="kxo-Lz-ZkW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B2x-tg-v4d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1114" y="-170"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="bfv-7S-F0h">
+            <objects>
+                <viewController id="maM-3r-XgB" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ixh-fn-btb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Oc1-3O-Xue"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="P0f-jo-5mc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-119" y="592"/>
         </scene>
         <!--Team DetailsVC-->
         <scene sceneID="Jxk-FV-3gu">
@@ -352,6 +368,7 @@
                         <outlet property="teamLabel" destination="S5u-7O-iLy" id="1Qy-EJ-bcy"/>
                         <outlet property="teamTable" destination="RdQ-CK-xaf" id="RhQ-sp-0OK"/>
                         <outlet property="venueLabel" destination="dqf-5f-eog" id="TBv-9F-bup"/>
+                        <segue destination="maM-3r-XgB" kind="show" identifier="showFixtureDetails" id="vvm-ki-iSH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gar-qU-EWn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -440,6 +457,7 @@
                         <outlet property="fixtureButton" destination="YXW-BX-bpP" id="f2l-4q-3y0"/>
                         <outlet property="tableButton" destination="kei-49-xmm" id="89J-KH-Qry"/>
                         <segue destination="fXI-e6-y1m" kind="show" identifier="goToTeamDetails" id="waa-ID-Thl"/>
+                        <segue destination="maM-3r-XgB" kind="show" identifier="showFixtureDetails" id="HBB-ua-WH8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fG7-MN-d2J" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -481,6 +499,7 @@
                     <tabBarItem key="tabBarItem" systemItem="mostRecent" id="ohi-rm-K5R"/>
                     <connections>
                         <outlet property="fixtureTableView" destination="Di4-YD-zmD" id="kwr-jZ-M4v"/>
+                        <segue destination="maM-3r-XgB" kind="show" identifier="showFixtureDetails" id="7bN-Vz-aja"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JdT-WW-kjQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -541,6 +560,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="PuY-aP-WFx"/>
-        <segue reference="ONf-IM-Q6u"/>
+        <segue reference="waa-ID-Thl"/>
+        <segue reference="7bN-Vz-aja"/>
     </inferredMetricsTieBreakers>
 </document>
