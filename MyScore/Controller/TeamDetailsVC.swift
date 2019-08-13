@@ -62,13 +62,6 @@ class TeamDetailsVC: UIViewController {
         setupUnderLine()
     }
     
-    func setupTransparentNavBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-    }
-    
     func slideAnimationForFixture() {
         let ty : CGFloat = 500
         let cells = teamTable.visibleCells

@@ -41,13 +41,6 @@ class CompetitionsVC: UIViewController {
         return .lightContent
     }
     
-    func setupTransparentNavBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-    }
-    
     func setupTable() {
         competitionsTableView.delegate = self
         competitionsTableView.dataSource = self

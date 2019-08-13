@@ -64,13 +64,6 @@ class CompetitionDetailsVC: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    func setupTransparentNavBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-    }
-    
     fileprivate func setupUnderLine() {
         let frame: CGRect = buttonStackView.frame
         let y = frame.origin.y + fixtureButton.frame.height
