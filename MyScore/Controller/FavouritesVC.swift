@@ -85,8 +85,7 @@ class FavouritesVC: UIViewController {
         for (pos, localFixture) in storedFixtures.enumerated() {
             fixtureGroup.enter()
             let id = localFixture.id
-            let filter = "/id/\(id)"
-            guard let url = URL(string: MyScoreURL.fixtures + filter) else { return }
+            guard let url = URL(string: MyScoreURL.fixture + "\(id)") else { return }
             APIManager.shared.request(url: url, onSuccess: { [weak self] (data) in
                 do {
                     let fixtureData = try JSONDecoder().decode(FixturesResponse.self, from: data)

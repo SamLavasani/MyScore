@@ -14,5 +14,6 @@ class MyScoreURL {
     static let fixtures = "https://api-football-v1.p.rapidapi.com/v2/fixtures"
     static let countries = "https://api-football-v1.p.rapidapi.com/v2/countries"
     static let liveFixtures = "https://api-football-v1.p.rapidapi.com/v2/fixtures/live"
+    static let fixture = "https://api-football-v1.p.rapidapi.com/v2/fixtures/id/"
     static let playersInTeam = "https://api-football-v1.p.rapidapi.com/v2/players/team/"
 }
