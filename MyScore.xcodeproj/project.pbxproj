@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5D0F39B27C31238A91ADC1D3 /* Pods_MyScore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6FCBA50BED92A103E00BA4 /* Pods_MyScore.framework */; };
+		7E14EEFB2302E12300FEFDCB /* Amount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E14EEFA2302E12300FEFDCB /* Amount.swift */; };
 		7E28CDA722B7D21900C0C626 /* FollowHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E28CDA622B7D21900C0C626 /* FollowHelper.swift */; };
 		7E28CDA922B7EE2600C0C626 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E28CDA822B7EE2600C0C626 /* DateHelper.swift */; };
 		7E35C6E32292EF2B0068E158 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E35C6E12292EF2B0068E158 /* CustomTableViewCell.swift */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		70F8E11DAFBCE3B63BEF0971 /* Pods-MyScore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyScore.release.xcconfig"; path = "Target Support Files/Pods-MyScore/Pods-MyScore.release.xcconfig"; sourceTree = "<group>"; };
+		7E14EEFA2302E12300FEFDCB /* Amount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amount.swift; sourceTree = "<group>"; };
 		7E28CDA622B7D21900C0C626 /* FollowHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHelper.swift; sourceTree = "<group>"; };
 		7E28CDA822B7EE2600C0C626 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		7E35C6E12292EF2B0068E158 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				7EA2D1D722D5216C002C09D9 /* Country.swift */,
 				7EF8DF6022EF4CA600D88ABA /* Player.swift */,
 				7EF8DF6422EF4F1B00D88ABA /* DateInfo.swift */,
+				7E14EEFA2302E12300FEFDCB /* Amount.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				7E35C6EC229565C30068E158 /* SmallFixtureTableViewCell.swift in Sources */,
 				7EF8DF6522EF4F1B00D88ABA /* DateInfo.swift in Sources */,
 				7EA2D1CC22D50AAD002C09D9 /* Score.swift in Sources */,
+				7E14EEFB2302E12300FEFDCB /* Amount.swift in Sources */,
 				7EA2D1D422D50C11002C09D9 /* League.swift in Sources */,
 				7E35C6E82294318D0068E158 /* CompetitionDetailsVC.swift in Sources */,
 				7EF8DF6322EF4E3500D88ABA /* PlayersResponse.swift in Sources */,

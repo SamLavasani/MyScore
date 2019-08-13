@@ -26,4 +26,5 @@ struct Fixture : Codable {
     let goalsHomeTeam : Int?
     let goalsAwayTeam : Int?
     let score : Score
+    let statistics : [String : Amount]?
 }
