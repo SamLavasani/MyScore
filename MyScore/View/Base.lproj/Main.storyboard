@@ -95,10 +95,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stadium-background" translatesAutoresizingMaskIntoConstraints="NO" id="9L1-gA-PD1">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jBJ-JT-Q3a">
-                                <rect key="frame" x="20" y="181" width="374" height="506"/>
+                                <rect key="frame" x="20" y="158" width="374" height="529"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -115,8 +115,8 @@
                                 <sections/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Competitions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wc9-Ia-dPS">
-                                <rect key="frame" x="20" y="84" width="374" height="52"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="40"/>
+                                <rect key="frame" x="20" y="74" width="374" height="39"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="30"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -125,7 +125,7 @@
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="jBJ-JT-Q3a" secondAttribute="bottom" id="3Ut-8T-3f0"/>
-                            <constraint firstItem="wc9-Ia-dPS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="3ce-eV-Y6J"/>
+                            <constraint firstItem="wc9-Ia-dPS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="3ce-eV-Y6J"/>
                             <constraint firstItem="9L1-gA-PD1" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="GRB-h2-lXO"/>
                             <constraint firstItem="9L1-gA-PD1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="OBF-Tt-Y8J"/>
                             <constraint firstItem="jBJ-JT-Q3a" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="OfJ-af-xby"/>
@@ -159,7 +159,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="pfK-LB-Ag8">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Fixtures" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Nr-ad-M6Z">
@@ -285,8 +285,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="football_water" translatesAutoresizingMaskIntoConstraints="NO" id="IML-lP-Bht">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="IML-lP-Bht">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5u-7O-iLy">
                                 <rect key="frame" x="20" y="94" width="374" height="52"/>
@@ -384,16 +384,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="qgw-Qg-eBA">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Competition" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PY3-qD-mwD">
-                                <rect key="frame" x="20" y="84" width="374" height="32.666666666666657"/>
+                                <rect key="frame" x="20" y="74" width="374" height="32.666666666666657"/>
                                 <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Ydk-UW-FmO">
-                                <rect key="frame" x="0.0" y="146.66666666666666" width="414" height="45"/>
+                                <rect key="frame" x="0.0" y="136.66666666666666" width="414" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YXW-BX-bpP">
                                         <rect key="frame" x="0.0" y="0.0" width="207" height="45"/>
@@ -426,14 +426,14 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uUj-Ji-BkT">
-                                <rect key="frame" x="20" y="211.66666666666666" width="374" height="475.33333333333337"/>
+                                <rect key="frame" x="20" y="201.66666666666666" width="374" height="485.33333333333337"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="PY3-qD-mwD" firstAttribute="top" secondItem="hLG-Ht-nvO" secondAttribute="top" constant="20" id="6HF-MB-AEb"/>
+                            <constraint firstItem="PY3-qD-mwD" firstAttribute="top" secondItem="hLG-Ht-nvO" secondAttribute="top" constant="10" id="6HF-MB-AEb"/>
                             <constraint firstItem="Ydk-UW-FmO" firstAttribute="top" secondItem="PY3-qD-mwD" secondAttribute="bottom" constant="30" id="8Dx-tr-YDy"/>
                             <constraint firstItem="hLG-Ht-nvO" firstAttribute="trailing" secondItem="PY3-qD-mwD" secondAttribute="trailing" constant="20" id="9oH-ox-eu6"/>
                             <constraint firstItem="PY3-qD-mwD" firstAttribute="leading" secondItem="hLG-Ht-nvO" secondAttribute="leading" constant="20" id="Ffa-NA-5gP"/>
@@ -472,24 +472,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Di4-YD-zmD">
-                                <rect key="frame" x="10" y="73" width="394" height="614"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arena-background" translatesAutoresizingMaskIntoConstraints="NO" id="a06-Hj-RZh">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="687.00000000000023"/>
+                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Di4-YD-zmD">
+                                <rect key="frame" x="10" y="79" width="394" height="608"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Live" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WrB-gT-HZX">
-                                <rect key="frame" x="10" y="30" width="394" height="33"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="25"/>
-                                <nil key="textColor"/>
+                                <rect key="frame" x="10" y="30" width="394" height="39"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Avx-kW-PzY" firstAttribute="trailing" secondItem="WrB-gT-HZX" secondAttribute="trailing" constant="10" id="4Jb-rh-2w1"/>
                             <constraint firstItem="WrB-gT-HZX" firstAttribute="leading" secondItem="Avx-kW-PzY" secondAttribute="leading" constant="10" id="ObT-cQ-LC5"/>
+                            <constraint firstItem="a06-Hj-RZh" firstAttribute="leading" secondItem="Avx-kW-PzY" secondAttribute="leading" id="TWh-hZ-dXU"/>
                             <constraint firstItem="Avx-kW-PzY" firstAttribute="bottom" secondItem="Di4-YD-zmD" secondAttribute="bottom" id="Xse-tB-mMh"/>
+                            <constraint firstItem="a06-Hj-RZh" firstAttribute="top" secondItem="64p-Xj-Oho" secondAttribute="top" id="Xy9-Gk-bOc"/>
                             <constraint firstItem="Di4-YD-zmD" firstAttribute="top" secondItem="WrB-gT-HZX" secondAttribute="bottom" constant="10" id="ZD3-5B-ShF"/>
+                            <constraint firstItem="Avx-kW-PzY" firstAttribute="trailing" secondItem="a06-Hj-RZh" secondAttribute="trailing" id="cE6-M5-Myh"/>
+                            <constraint firstItem="Avx-kW-PzY" firstAttribute="bottom" secondItem="a06-Hj-RZh" secondAttribute="bottom" id="era-FB-UPa"/>
                             <constraint firstItem="Avx-kW-PzY" firstAttribute="trailing" secondItem="Di4-YD-zmD" secondAttribute="trailing" constant="10" id="kNg-kM-kv3"/>
                             <constraint firstItem="Di4-YD-zmD" firstAttribute="leading" secondItem="Avx-kW-PzY" secondAttribute="leading" constant="10" id="oja-Qn-WQ0"/>
                             <constraint firstItem="WrB-gT-HZX" firstAttribute="top" secondItem="Avx-kW-PzY" secondAttribute="top" constant="10" id="rXU-VD-qSr"/>
@@ -559,7 +567,7 @@
         <image name="stadium-background" width="1280" height="853"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PuY-aP-WFx"/>
+        <segue reference="Bgc-2A-X14"/>
         <segue reference="waa-ID-Thl"/>
         <segue reference="7bN-Vz-aja"/>
     </inferredMetricsTieBreakers>
